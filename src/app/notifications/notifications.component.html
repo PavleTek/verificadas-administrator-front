@@ -1,0 +1,25 @@
+<p-table [value]="notifications" styleClass="p-datatable-striped">
+  <ng-template pTemplate="caption"> Notifications </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Type</th>
+      <th>
+        <div class="flex justify-content-end mr-3">Actions</div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-notification>
+    <tr>
+      <td class="text-800 font-medium">{{ notification.type }}</td>
+      <td>
+        <div class="flex gap-5 justify-content-end mr-3">
+          <p-button label="Attend Notification" icon="pi pi-reply" severity="help" iconPos="right" (onClick)="goToSolveNotification(notification)"></p-button>
+          <p-button label="Delete Notification" icon="pi pi-trash" severity="danger" iconPos="right" (onClick)="deleteNotification(notification.id)"></p-button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">In total there are {{ notifications ? notifications.length : 0 }} Notifications.</div>
+  </ng-template>
+</p-table>

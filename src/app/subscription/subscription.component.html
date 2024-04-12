@@ -1,0 +1,183 @@
+<p-button label="Back" icon="pi pi-arrow-left" iconPos="left" (onClick)="goBack()"></p-button>
+<div *ngIf="girl !== undefined">
+  <h2>Subscription Management</h2>
+  <p-toast></p-toast>
+  <p-confirmPopup></p-confirmPopup>
+  <div class="surface-card p-4 mt-4 shadow-2 border-round">
+    <ul class="list-none p-0 m-0">
+      <!-- Status -->
+      <li class="flex align-items-center px-2 surface-border flex-wrap">
+        <div class="flex align-items-center pr-5 w-6 md:w-2">
+          <span class="pi pi-circle-fill pr-3" style="color: var(--green-500)" *ngIf="girl.active"></span>
+          <span class="pi pi-circle-fill pr-3" style="color: var(--red-700)" *ngIf="!girl.active"></span>
+          <div class="text-500 font-medium pr-3">Status</div>
+        </div>
+        <p-button class="pr-5" (onClick)="confirmActivateGirl($event, girl)" *ngIf="!girl.active">
+          <span class="pi pi-lock pr-2"></span>
+          <span class="pi pi-arrow-right pr-2"></span>
+          <span class="pi pi-lock-open pr-3"></span>
+          <span class="font-bold">Activate</span>
+        </p-button>
+        <p-button (onClick)="confirmDeactivateGirl($event, girl)" *ngIf="girl.active">
+          <span class="pi pi-lock pr-2"></span>
+          <span class="pi pi-arrow-left pr-2"></span>
+          <span class="pi pi-lock-open pr-3"></span>
+          <span class="font-bold">Deactivate</span></p-button
+        >
+      </li>
+    </ul>
+  </div>
+  <div class="surface-card p-4 mt-4 shadow-2 border-round">
+    <ul class="list-none p-0 m-0">
+      <!-- Payment Tier -->
+      <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Payment Tier</div>
+        <p-dropdown [options]="paymentTierOptions" [(ngModel)]="girl.paymentTier" placeholder="Select Payment Tier"></p-dropdown>
+      </li>
+      <!-- Expiry Date -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Subscription Expiry</div>
+        <p-calendar [(ngModel)]="girl.subscription.expiryDate" [showIcon]="true" inputId="buttondisplay"></p-calendar>
+      </li>
+      <!-- Deactivation Date -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Deactivation Date</div>
+        <p-calendar [(ngModel)]="girl.subscription.deactivationDate" [showIcon]="true" inputId="buttondisplay"></p-calendar>
+      </li>
+      <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
+        <p-button label="Cancel changes" icon="pi pi-eraser" iconPos="right" class="pr-5" (onClick)="backToMainSubscription()"></p-button>
+        <p-button label="Save" icon="pi pi-save" iconPos="right" [disabled]="disabledBecauseOfVerification" (onClick)="updateSubscription()"></p-button>
+      </li>
+    </ul>
+  </div>
+  <h2>Register Payment</h2>
+  <div class="surface-card p-4 mt-4 shadow-2 border-round">
+    <ul class="list-none p-0 m-0">
+      <!-- Payment Tier -->
+      <li class="flex align-items-center pb-3 px-2 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Payment Tier</div>
+        <p-dropdown [options]="paymentTierOptions" [(ngModel)]="newPayment.paymentTier" placeholder="Select Payment Tier"></p-dropdown>
+      </li>
+      <!-- Duration -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Duration</div>
+        <p-dropdown [options]="subcsriptionDurationOptions" [(ngModel)]="newPayment.duration" placeholder="Select Payment Tier"></p-dropdown>
+      </li>
+      <!-- Amount Paid -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Amount Paid</div>
+        <p-inputNumber
+          inputId="integeronly"
+          [(ngModel)]="newPayment.amountPaid"
+          suffix=" CLP"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          inputId="horizontal"
+          spinnerMode="horizontal"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+          [step]="10000"
+        ></p-inputNumber>
+      </li>
+      <!-- Payment Method -->
+      <li class="flex align-items-center py-3 border-top-1 px-2 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Payment Method</div>
+        <div class="flex align-items-center mb-2">
+          <input type="text" class="text-900 font-medium p-inputtext-sm" pInputText [(ngModel)]="newPayment.paymentMethod" />
+        </div>
+      </li>
+      <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
+        <p-button label="Cancel changes" icon="pi pi-eraser" iconPos="right" class="pr-5" (onClick)="backToMainSubscription()"></p-button>
+        <p-button
+          label="Register payment"
+          icon="pi pi-upload"
+          iconPos="right"
+          [disabled]="disabledBecauseOfVerification"
+          (onClick)="registerPayment()"
+        ></p-button>
+      </li>
+    </ul>
+  </div>
+  <h2 *ngIf="allGirlPayments && !paymentForEdit">Previous Payments</h2>
+  <p-table
+    [value]="allGirlPayments"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '10rem' }"
+    class="mt-5"
+    *ngIf="allGirlPayments && !paymentForEdit"
+    styleClass="p-datatable-striped"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th pSortableColumn="paymentDate">Date<p-sortIcon field="paymentDate"></p-sortIcon></th>
+        <th pSortableColumn="amountPaid">Amount<p-sortIcon field="amountPaid"></p-sortIcon></th>
+        <th pSortableColumn="paymentTier">Tier<p-sortIcon field="paymentTier"></p-sortIcon></th>
+        <th pSortableColumn="duration">Duration<p-sortIcon field="duration"></p-sortIcon></th>
+        <th pSortableColumn="paymentMethod">Method<p-sortIcon field="paymentMethod"></p-sortIcon></th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-payment>
+      <tr>
+        <td>{{ payment?.id }}</td>
+        <td>{{ formatDate(payment.paymentDate) }}</td>
+        <td>{{ payment.amountPaid }}</td>
+        <td>{{ payment.paymentTier }}</td>
+        <td>{{ payment.duration }}</td>
+        <td>{{ payment.paymentMethod }}</td>
+        <td>
+          <div class="flex">
+            <p-button icon="pi pi-pencil" severity="danger" label="Edit" class="pr-2" (onClick)="selectPaymentForEdit(payment)"></p-button>
+            <p-button icon="pi pi-trash" severity="danger" label="Delete" (onClick)="deletePayment($event, payment)"></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div *ngIf="paymentForEdit !== undefined">
+    <h2>Edit Payment</h2>
+    <div class="surface-card p-4 mt-4 shadow-2 border-round">
+      <ul class="list-none p-0 m-0">
+        <!-- Payment Tier -->
+        <li class="flex align-items-center pb-3 px-2 surface-border flex-wrap">
+          <div class="text-500 w-6 md:w-2 font-medium">Payment Tier</div>
+          <p-dropdown [options]="paymentTierOptions" [(ngModel)]="paymentForEdit.paymentTier" placeholder="Select Payment Tier"></p-dropdown>
+        </li>
+        <!-- Duration -->
+        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+          <div class="text-500 w-6 md:w-2 font-medium">Duration</div>
+          <p-dropdown [options]="subcsriptionDurationOptions" [(ngModel)]="paymentForEdit.duration" placeholder="Select Payment Tier"></p-dropdown>
+        </li>
+        <!-- Amount Paid -->
+        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+          <div class="text-500 w-6 md:w-2 font-medium">Amount Paid</div>
+          <p-inputNumber
+            inputId="integeronly"
+            [(ngModel)]="paymentForEdit.amountPaid"
+            suffix=" CLP"
+            [showButtons]="true"
+            buttonLayout="horizontal"
+            inputId="horizontal"
+            spinnerMode="horizontal"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+            [step]="10000"
+          ></p-inputNumber>
+        </li>
+        <!-- Payment Method -->
+        <li class="flex align-items-center py-3 border-top-1 px-2 surface-border flex-wrap">
+          <div class="text-500 w-6 md:w-2 font-medium">Payment Method</div>
+          <div class="flex align-items-center mb-2">
+            <input type="text" class="text-900 font-medium p-inputtext-sm" pInputText [(ngModel)]="paymentForEdit.paymentMethod" />
+          </div>
+        </li>
+        <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
+          <p-button label="Cancel changes" icon="pi pi-eraser" iconPos="right" class="pr-5" (onClick)="stopEditingPayment()"></p-button>
+          <p-button label="Register payment" icon="pi pi-upload" iconPos="right" (onClick)="updatePayment()"></p-button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- table for all payments with edit and delete option -->

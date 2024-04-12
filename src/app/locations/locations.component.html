@@ -1,0 +1,185 @@
+<p-toast></p-toast>
+<p-dialog [(visible)]="visibleUploadDialog">
+  <div class="flex py-2 justify-content-center">
+    <p-fileUpload [customUpload]="true" (uploadHandler)="uploadExcelFile($event)" accept=".xlsx" [maxFileSize]="1000000" (onClear)="cancelUpload()">
+      <ng-template pTemplate="content">
+        <ul *ngIf="uploadedFiles.length">
+          <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+        </ul>
+      </ng-template>
+    </p-fileUpload>
+  </div>
+</p-dialog>
+<h2>Cities</h2>
+<div class="surface-card p-3 mb-3 flex align-items-center justify-content-between" style="border-radius: 5px">
+  <div class="flex align-items-center">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search ml-2"></i>
+      <input type="text" class="text-900 font-medium p-inputtext-lg wide-input" pInputText [(ngModel)]="citySearchName" (input)="fitlerCities()" />
+    </span>
+    <p-button pRipple icon="pi pi-download" class="p-button-text mx-3" severity="info" label="Download Excel" (onClick)="exportToExcel('city')"></p-button>
+    <p-button pRipple icon="pi pi-upload" class="p-button-text mr-3" severity="info" label="Upload Excel" (onClick)="openUploadDialog('city')"></p-button>
+  </div>
+  <div class="mr-2 ml-2 flex">
+    <p-button pRipple icon="pi pi-plus" [rounded]="true" class="p-button-text mr-3" severity="info" label="Create City" (onClick)="createCity()"></p-button>
+    <p-button
+      pRipple
+      icon="pi pi-save"
+      [rounded]="true"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Update All Cities"
+      (onClick)="confirmSaveAllCities($event)"
+    ></p-button>
+  </div>
+</div>
+<div class="surface-ground">
+  <div class="grid">
+    <div *ngFor="let city of filteredCities" class="col-12 lg:col-4 p-3">
+      <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="!city.edit">
+        <div style="width: 48px; height: 48px; border-radius: 10px" class="bg-teal-100 inline-flex align-items-center justify-content-center mr-3">
+          <i class="pi pi-building text-teal-600 text-3xl"></i>
+        </div>
+        <div style="max-width: 75%">
+          <span class="text-900 text-xl font-medium mb-2">{{ city.name }}</span>
+        </div>
+        <div class="ml-auto">
+          <p-confirmPopup></p-confirmPopup>
+          <p-button pRipple icon="pi pi-pencil" [rounded]="true" class="p-button-text mr-3" severity="info" (onClick)="editObject(city)"></p-button>
+          <p-button pRipple icon="pi pi-trash" [rounded]="true" class="p-button-text" severity="warning" (onClick)="confirmDeleteCity($event, city)"></p-button>
+        </div>
+      </div>
+      <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="city.edit">
+        <div
+          style="width: 48px; height: 48px; border-radius: 10px"
+          class="bg-yellow-200 inline-flex align-items-center justify-content-center mr-5 ml-3"
+          *ngIf="city.edit"
+        >
+          <i class="pi pi-file-edit text-teal-600 text-3xl"></i>
+        </div>
+        <div>
+          <div>
+            <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="city.name" />
+          </div>
+        </div>
+        <div class="ml-auto">
+          <p-toast></p-toast>
+          <p-confirmPopup></p-confirmPopup>
+          <p-button pRipple icon="pi pi-save" [rounded]="true" class="p-button-text mr-3" severity="info" (onClick)="confirmSaveCity($event, city)"></p-button>
+          <p-button pRipple icon="pi pi-times" [rounded]="true" class="p-button-text" severity="warning" (onClick)="cancelEditForCity(city)"></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<h2>Specific Locations</h2>
+<div class="surface-card p-3 mb-3 flex align-items-center justify-content-between" style="border-radius: 5px">
+  <div class="flex align-items-center">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search ml-2"></i>
+      <input
+        type="text"
+        class="text-900 font-medium p-inputtext-lg wide-input"
+        pInputText
+        [(ngModel)]="specificLocationSearchName"
+        (input)="filterSpecificLocations()"
+      />
+    </span>
+    <p-button
+      pRipple
+      icon="pi pi-download"
+      class="p-button-text mx-3"
+      severity="info"
+      label="Download Excel"
+      (onClick)="exportToExcel('specificLocation')"
+    ></p-button>
+    <p-button
+      pRipple
+      icon="pi pi-upload"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Upload Excel"
+      (onClick)="openUploadDialog('specificLocation')"
+    ></p-button>
+  </div>
+  <div class="mr-2 ml-2 flex">
+    <p-button
+      pRipple
+      icon="pi pi-plus"
+      [rounded]="true"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Create Specific Location"
+      (onClick)="createSpecificLocation()"
+    ></p-button>
+    <p-button
+      pRipple
+      icon="pi pi-save"
+      [rounded]="true"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Update All Specifc Locations"
+      (onClick)="confirmSaveAllSpecificLocations($event)"
+    ></p-button>
+  </div>
+</div>
+<div class="surface-ground">
+  <div class="grid">
+    <div *ngFor="let location of filteredSpecificLocations" class="col-12 lg:col-4 p-3">
+      <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="!location.edit">
+        <div style="width: 48px; height: 48px; border-radius: 10px" class="bg-teal-100 inline-flex align-items-center justify-content-center mr-3">
+          <i class="pi pi-building text-teal-600 text-3xl"></i>
+        </div>
+        <div style="max-width: 75%">
+          <span class="text-900 text-xl font-medium mb-2">{{ location.name }}</span>
+        </div>
+        <div class="ml-auto">
+          <p-confirmPopup></p-confirmPopup>
+          <p-button pRipple icon="pi pi-pencil" [rounded]="true" class="p-button-text mr-3" severity="info" (onClick)="editObject(location)"></p-button>
+          <p-button
+            pRipple
+            icon="pi pi-trash"
+            [rounded]="true"
+            class="p-button-text"
+            severity="warning"
+            (onClick)="confirmDeleteSpecificLocation($event, location)"
+          ></p-button>
+        </div>
+      </div>
+      <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="location.edit">
+        <div
+          style="width: 48px; height: 48px; border-radius: 10px"
+          class="bg-yellow-200 inline-flex align-items-center justify-content-center mr-5 ml-3"
+          *ngIf="location.edit"
+        >
+          <i class="pi pi-file-edit text-teal-600 text-3xl"></i>
+        </div>
+        <div>
+          <div>
+            <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="location.name" />
+          </div>
+        </div>
+        <div class="ml-auto">
+          <p-toast></p-toast>
+          <p-confirmPopup></p-confirmPopup>
+          <p-button
+            pRipple
+            icon="pi pi-save"
+            [rounded]="true"
+            class="p-button-text mr-3"
+            severity="info"
+            (onClick)="confirmSaveSpecificLocation($event, location)"
+          ></p-button>
+          <p-button
+            pRipple
+            icon="pi pi-times"
+            [rounded]="true"
+            class="p-button-text"
+            severity="warning"
+            (onClick)="cancelEditForSpecificLocation(location)"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

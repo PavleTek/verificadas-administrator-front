@@ -1,0 +1,161 @@
+<p-button label="Back" icon="pi pi-arrow-left" iconPos="left" (onClick)="goBack()"></p-button>
+<ng-container *ngIf="girl !== undefined">
+  <h2>Information Verification</h2>
+  <p-toast></p-toast>
+  <div class="surface-card p-4 shadow-2 border-round">
+    <ul class="list-none p-0 m-0">
+      <!-- Status -->
+      <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Status</div>
+        <p-dropdown [options]="verificationStatusOptions" [(ngModel)]="girl.verification.status" placeholder="Verification Status"></p-dropdown>
+      </li>
+      <!-- Name -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Name</div>
+        <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="girl.verification.name" />
+      </li>
+      <!-- Last Name -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Last Name</div>
+        <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="girl.verification.lastname" />
+      </li>
+      <!-- RUT -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Rut</div>
+        <p-inputMask mask="99.999.999-9" [(ngModel)]="girl.verification.rut" placeholder="xx.xxx.xxx-x"></p-inputMask>
+      </li>
+      <!-- Bday -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Fecha De Nacimiento</div>
+        <p-calendar [(ngModel)]="girl.bday" [showIcon]="true" inputId="buttondisplay"></p-calendar>
+      </li>
+      <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
+        <p-button label="Cancel changes" icon="pi pi-eraser" iconPos="right" class="pr-5" (onClick)="cancelVerificationInformationUpdate()"></p-button>
+        <p-button label="Save" icon="pi pi-save" iconPos="right" (onClick)="updateInformationVerification()"></p-button>
+      </li>
+    </ul>
+  </div>
+  <h2>Physical Verification</h2>
+  <div class="surface-card p-4 shadow-2 border-round">
+    <ul class="list-none p-0 m-0">
+      <!-- Barbie -->
+      <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Barbie</div>
+        <p-inputSwitch [(ngModel)]="girl.barbie"></p-inputSwitch>
+      </li>
+      <!-- Height -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Altura en cm</div>
+        <p-inputNumber
+          [(ngModel)]="girl.height"
+          suffix=" cm"
+          [showButtons]="true"
+          spinnerMode="horizontal"
+          buttonLayout="horizontal"
+          inputId="horizontal"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        ></p-inputNumber>
+      </li>
+      <!-- Weight -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Peso en Kg</div>
+        <p-inputNumber
+          inputId="integeronly"
+          [(ngModel)]="girl.weight"
+          suffix=" Kg"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          inputId="horizontal"
+          spinnerMode="horizontal"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        ></p-inputNumber>
+      </li>
+      <!-- Chest -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Diametro pecho</div>
+        <p-inputNumber
+          inputId="integeronly"
+          [(ngModel)]="girl.chestCm"
+          suffix=" cm"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          inputId="horizontal"
+          spinnerMode="horizontal"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        ></p-inputNumber>
+      </li>
+      <!-- Waist -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Diametro cintura</div>
+        <p-inputNumber
+          inputId="integeronly"
+          [(ngModel)]="girl.waistCm"
+          suffix=" cm"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          inputId="horizontal"
+          spinnerMode="horizontal"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        ></p-inputNumber>
+      </li>
+      <!-- Ass -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Diametro trasero</div>
+        <p-inputNumber
+          inputId="integeronly"
+          [(ngModel)]="girl.bottomCm"
+          suffix=" cm"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          inputId="horizontal"
+          spinnerMode="horizontal"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        ></p-inputNumber>
+      </li>
+      <!-- Edit level -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Retoque</div>
+        <p-dropdown [options]="retoqueOptions" [(ngModel)]="girl.editLevel" placeholder="Nivel de retoque"></p-dropdown>
+      </li>
+      <!-- Attributes -->
+      <li class="flex-row align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Atributos</div>
+        <div class="grid">
+          <div class="col-12">
+            <div class="border-2 flex-row border-200 border-round surface-card p-3 m-1">
+              <div class="flex pb-2">
+                <span class="text-500 w-6 md:w-2 py-2">Contextura: </span>
+                <p-dropdown [options]="contextureOptions" [(ngModel)]="girl.attributes.contexture" placeholder="Seleccione contextura"></p-dropdown>
+              </div>
+              <div class="flex pb-2">
+                <span class="text-500 w-6 md:w-2 py-2">Cabello: </span>
+                <p-dropdown [options]="hairColorOptions" [(ngModel)]="girl.attributes.hair" placeholder="Seleccione Cabello"></p-dropdown>
+              </div>
+              <div class="flex pb-2">
+                <span class="text-500 w-6 md:w-2 py-2">Ojos: </span>
+                <p-dropdown [options]="eyeColorOptions" [(ngModel)]="girl.attributes.eyes" placeholder="Seleccione Color De Ojos"></p-dropdown>
+              </div>
+              <div class="flex pb-2">
+                <span class="text-500 w-6 md:w-2 py-2">Senos: </span>
+                <p-dropdown [options]="chestSizeOptions" [(ngModel)]="girl.attributes.chestSize" placeholder="Seleccione Tamaño De Senos"></p-dropdown>
+              </div>
+              <div class="flex pb-2">
+                <span class="text-500 w-6 md:w-2 py-2">Trasero: </span>
+                <p-dropdown [options]="bottomSizeOptions" [(ngModel)]="girl.attributes.bottomSize" placeholder="Seleccione Tamaño De Trasero"></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
+        <p-button label="Cancel changes" icon="pi pi-eraser" iconPos="right" class="pr-5" (onClick)="cancelPhysicalVerificationUpdate()"></p-button>
+        <p-button label="Save" icon="pi pi-save" iconPos="right" (onClick)="updatePhysicalVerification()"></p-button>
+      </li>
+    </ul>
+  </div>
+</ng-container>

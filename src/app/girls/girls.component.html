@@ -1,0 +1,127 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="surface-ground">
+  <div class="p-2">
+    <p-button label="Create Girl" icon="pi pi-plus" iconPos="right" (onClick)="startGirlUserCreation()"></p-button>
+  </div>
+  <p-divider></p-divider>
+  <div class="grid grid-nogutter align-items-center">
+    <div>
+      <span>
+        <input type="text" class="text-900 font-medium mb-3 lg:mr-4" pInputText [(ngModel)]="searchName" />
+      </span>
+    </div>
+    <p-multiSelect
+      [options]="verificationStatusOptions"
+      [(ngModel)]="selectedVerificationStatusOptions"
+      placeholder="VerificationStatus"
+      styleClass="w-full"
+      [maxSelectedLabels]="4"
+      selectedItemsLabel="{0} verification options selected"
+      class="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900"
+    ></p-multiSelect>
+    <p-multiSelect
+      [options]="paymentTierOptions"
+      [(ngModel)]="selectedPaymentTierOptions"
+      placeholder="PaymentTier"
+      styleClass="w-full"
+      [maxSelectedLabels]="4"
+      selectedItemsLabel="{0} payment options selected"
+      class="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900"
+    >
+    </p-multiSelect>
+    <div class="flex lg:flex-1 mb-3 lg:mt-0 mr-0 lg:mr-4 text-900 switch-filter-container">
+      <div class="flex flex-nowrap pr-3">
+        <span class="font-semibold pr-2 text-lg text-center vertical-align-middle white-space-nowrap">Only Active</span>
+        <p-inputSwitch [(ngModel)]="subscriptionActiveFilter"></p-inputSwitch>
+      </div>
+      <div class="flex flex-nowrap">
+        <span class="font-semibold pr-2 text-lg text-center vertical-align-middle white-space-nowrap">Pending multimedia</span>
+        <p-inputSwitch [(ngModel)]="pendingMultimediaFilter"></p-inputSwitch>
+      </div>
+    </div>
+    <p-button label="Clear Filter" icon="pi pi-filter-slash" iconPos="right" class="mb-3 pr-3" (onClick)="clearFilters()"></p-button>
+    <p-button label="Apply Filter" icon="pi pi-filter-fill" iconPos="right" class="mb-3" (onClick)="applyFilter()"></p-button>
+  </div>
+  <p-divider></p-divider>
+  <div class="grid">
+    <div *ngFor="let user of filteredUsers" class="2 md:col-6 xl:col-3 p-3">
+      <div class="surface-card shadow-2 border-round p-4 relative" style="width: 100%; height: 100%">
+        <div class="flex flex-column align-items-center mb-3">
+          <ng-container *ngIf="user.girl.profilePicture !== ''">
+            <img [src]="user.girl.profilePicture" style="width: 100px; height: 100px; border-radius: 50%" class="mb-1" />
+          </ng-container>
+          <ng-container *ngIf="user.girl.profilePicture === ''">
+            <img src="../../assets/basicProfilePicture.jpg" style="width: 100px; height: 100px; border-radius: 50%" class="mb-1" />
+          </ng-container>
+          <div class="speed-dial-container m-3">
+            <p-speedDial
+              [model]="items"
+              [radius]="120"
+              (onClick)="selectSpeedDialGirl(user)"
+              direction="down-right"
+              type="quarter-circle"
+              showIcon="pi pi-bars"
+              hideIcon="pi pi-times"
+              buttonClassName="p-button-outlined p-button-plain"
+            ></p-speedDial>
+          </div>
+          <span class="font-medium text-900 text-xl mb-2">{{ user.email }}</span>
+          <span class="text-600 font-medium mb-2">{{ user.girl.paymentTier }}</span>
+          <div class="flex align-items-end p-1 mb-2">
+            <p-button
+              *ngIf="whatsappGreenColor(user); else elseBlock"
+              icon="pi pi-whatsapp"
+              [text]="true"
+              severity="success"
+              [label]="cleanPhoneNumber(user.girl.phoneNumber)"
+              (onClick)="sendWhatsapp(user)"
+            ></p-button>
+            <ng-template #elseBlock>
+              <p-button
+                icon="pi pi-whatsapp"
+                [text]="true"
+                severity="danger"
+                [label]="cleanPhoneNumber(user.girl.phoneNumber)"
+                (onClick)="sendWhatsapp(user)"
+              ></p-button>
+            </ng-template>
+          </div>
+          <!-- <span class="text-600 surface-200 p-2 border-round" *ngIf="user.girl.verification.status === 'Verified'"
+            >Verification: {{ user.girl.verification.status }}</span
+          > -->
+          <span class="text-600 surface-200 p-2 border-round">Verification: {{ user.girl.verification.status }}</span>
+        </div>
+        <div class="pt-3 border-top-1 surface-border flex">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-camera"
+            (click)="selectGirlForMultimedia(user)"
+            class="flex-auto p-button-outlined p-button-plain"
+            style="border-radius: 30px"
+          ></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-vimeo"
+            class="flex-auto ml-2 p-button-outlined p-button-plain"
+            style="border-radius: 30px"
+            (click)="selectGirlForVerificationManagement(user)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-dollar"
+            class="flex-auto ml-2 p-button-outlined p-button-plain"
+            style="border-radius: 30px"
+            (click)="selectGirlForSubscription(user)"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

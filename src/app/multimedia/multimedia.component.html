@@ -1,0 +1,83 @@
+<p-button label="Back" icon="pi pi-arrow-left" iconPos="left" (onClick)="goBack()"></p-button>
+<ng-container *ngIf="girl !== undefined">
+  <h2>Multimedia Management</h2>
+  <p-toast></p-toast>
+  <p-confirmPopup></p-confirmPopup>
+  <!-- Profile Picture Start -->
+  <div class="surface-card p-4 mt-4 shadow-2 border-round" *ngIf="girl.requestProfilePicture !== undefined && girl.requestProfilePicture !== ''">
+    <h2>Profile Picture Request</h2>
+    <h2>{{ girl.profilePictureRequest }}</h2>
+    <ul class="list-none p-0 m-0">
+      <div class="grid" id="imageGridPending">
+        <div class="xl:col-2 lg:col-3 md:col-4 sm:col-6 col-6">
+          <div class="image-container" (click)="openImage(0, 'profilePictureRequest')">
+            <img [src]="girl.requestProfilePicture" alt="image" class="grid-img" />
+          </div>
+        </div>
+      </div>
+      <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
+        <p-button label="Reject Profile Picture" icon="pi pi-times" iconPos="right" class="pr-5" (onClick)="rejectImages($event)"></p-button>
+        <p-button label="Approve Profile Picture" icon="pi pi-check-circle" iconPos="right" (onClick)="approveProfilePicture($event, girl.id)"></p-button>
+      </li>
+    </ul>
+  </div>
+  <div class="surface-card p-4 mt-4 shadow-2 border-round" *ngIf="girl.profilePicture !== ''">
+    <h2>Active Profile Picture</h2>
+    <ul class="list-none p-0 m-0">
+      <div class="grid" id="activeProfilePictureContainer">
+        <div class="xl:col-2 lg:col-3 md:col-4 sm:col-6 col-6">
+          <div class="image-container" (click)="openImage(0, 'activeProfilePicture')">
+            <img [src]="girl.profilePicture" alt="image" class="grid-img" />
+          </div>
+        </div>
+      </div>
+    </ul>
+  </div>
+  <!-- Profile Picture End -->
+  <!-- images Start -->
+  <div class="surface-card p-4 mt-4 shadow-2 border-round" *ngIf="girl.images.request.length">
+    <h2>Image Request</h2>
+    <ul class="list-none p-0 m-0">
+      <div class="grid" id="imageGridPending">
+        <div *ngFor="let image of girl.images.request; let index = index" class="xl:col-2 lg:col-3 md:col-4 sm:col-6 col-6">
+          <div class="image-container" (click)="openImage(index, 'request')">
+            <img [src]="image" alt="image" class="grid-img" />
+          </div>
+        </div>
+      </div>
+      <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
+        <p-button label="Reject Images" icon="pi pi-times" iconPos="right" class="pr-5" (onClick)="rejectImages($event)"></p-button>
+        <p-button label="Approve Images" icon="pi pi-check-circle" iconPos="right" (onClick)="approveImages($event, girl.id)"></p-button>
+      </li>
+    </ul>
+  </div>
+  <div class="surface-card p-4 mt-4 shadow-2 border-round">
+    <h2>Active Images</h2>
+    <ul class="list-none p-0 m-0">
+      <div class="grid" id="imageGridActive">
+        <div *ngFor="let image of girl.images.active; let index = index" class="xl:col-2 lg:col-3 md:col-4 sm:col-6 col-6">
+          <div class="image-container" (click)="openImage(index, 'active')">
+            <img [src]="image" alt="image" class="grid-img" />
+          </div>
+        </div>
+      </div>
+    </ul>
+  </div>
+  <!-- images End -->
+  <p-galleria
+    id="customGalleria"
+    [value]="activeGaleriaImages"
+    [(visible)]="displayCustom"
+    [(activeIndex)]="activeIndex"
+    [responsiveOptions]="responsiveOptions"
+    [numVisible]="7"
+    [circular]="true"
+    [fullScreen]="true"
+    [showItemNavigators]="true"
+    [showThumbnails]="false"
+  >
+    <ng-template pTemplate="item" let-item>
+      <img [src]="item" style="height: 100%; display: block" id="customImageDisplay" class="display-image" />
+    </ng-template>
+  </p-galleria>
+</ng-container>

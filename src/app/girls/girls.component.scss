@@ -1,0 +1,30 @@
+.custom-col {
+    flex: 0 0 calc(100% / 7);
+  }
+  
+  ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    border: none;
+  }
+  
+  .center-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+  }
+  
+  .switch-filter-container {
+    width: min-content;
+  }
+  
+  .speed-dial-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scale(0.8);
+  }
+  
+  .relative {
+    position: relative;
+  }
+  

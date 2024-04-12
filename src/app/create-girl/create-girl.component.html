@@ -1,0 +1,68 @@
+<div class="surface-card p-4 shadow-2 border-round">
+  <p-toast></p-toast>
+  <ul class="list-none p-0 m-0">
+    <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+      <div class="text-500 w-6 md:w-2 font-medium">Name</div>
+      <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="name" />
+    </li>
+    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+      <div class="text-500 w-6 md:w-2 font-medium">Email</div>
+      <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="email" />
+    </li>
+    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+      <div class="text-500 w-6 md:w-2 font-medium">Payment Tier</div>
+      <p-dropdown [options]="paymentTierOptions" [(ngModel)]="selectedPaymentTier" placeholder="Initial Payment Tier" [editable]="false"></p-dropdown>
+    </li>
+    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+      <div class="text-500 w-6 md:w-2 font-medium">Phone Number</div>
+      <p-inputMask mask="+99 999999999" [(ngModel)]="phoneNumber" placeholder="+56 9xxxxxxxx"></p-inputMask>
+    </li>
+    <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+      <div class="text-500 w-6 md:w-2 font-medium">Fecha De Nacimiento</div>
+      <p-calendar [(ngModel)]="bday" [showIcon]="true" inputId="buttondisplay"></p-calendar>
+    </li>
+    <li class="flex align-items-center py-3 border-top-1 px-2 surface-border flex-wrap">
+      <div class="text-500 w-6 md:w-2 font-medium">Password</div>
+      <div class="flex align-items-center mb-2">
+        <input type="text" class="text-900 font-medium p-inputtext-sm" pInputText [(ngModel)]="password" />
+        <p-button icon="pi pi-key" size="small" (onClick)="generateRandomPassword()"></p-button>
+      </div>
+    </li>
+    <li class="flex align-items-center justify-content-between py-3 px-2 border-top-1 surface-border flex-wrap">
+      <div class="flex align-items-center flex-non-wrap w-6 md:w-2">
+        <div class="text-500 font-medium mr-3">Ciudad</div>
+        <p-dropdown [options]="allCities" [(ngModel)]="city" placeholder="Select a City" [editable]="true" optionLabel="name"></p-dropdown>
+      </div>
+    </li>
+    <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
+      <p-button label="Cancel" icon="pi pi-trash" iconPos="right" class="pr-5" (onClick)="cancelGirlCreation()"></p-button>
+      <p-button label="Save" icon="pi pi-save" iconPos="right" (onClick)="createNewGirlUser()"></p-button>
+    </li>
+  </ul>
+</div>
+<div class="surface-card p-4 shadow-2 border-round mt-6" *ngIf="anounceRequest !== undefined">
+  <h2>Anounce Request</h2>
+  <ul class="list-none p-0 m-0">
+    <!-- Name -->
+    <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+      <div class="text-500 w-6 md:w-2 font-medium">Email</div>
+      <span class="text-900 font-medium mb-2 p-inputtext-sm">{{ anounceRequest.email }}</span>
+    </li>
+    <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+      <div class="text-500 w-6 md:w-2 font-medium">Name</div>
+      <span class="text-900 font-medium mb-2 p-inputtext-sm">{{ anounceRequest.name }}</span>
+    </li>
+    <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+      <div class="text-500 w-6 md:w-2 font-medium">Phone Number</div>
+      <span class="text-900 font-medium mb-2 p-inputtext-sm">{{ anounceRequest.phoneNumber }}</span>
+    </li>
+    <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+      <div class="text-500 w-6 md:w-2 font-medium">PaymentTier</div>
+      <span class="text-900 font-medium mb-2 p-inputtext-sm">{{ anounceRequest.paymentTier }}</span>
+    </li>
+    <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+      <div class="text-500 w-6 md:w-2 font-medium mb-2">Message</div>
+      <span class="text-900 font-medium mb-2 p-inputtext-sm">{{ anounceRequest.message }}</span>
+    </li>
+  </ul>
+</div>

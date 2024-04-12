@@ -1,0 +1,215 @@
+<p-toast></p-toast>
+<p-dialog [(visible)]="visibleUploadDialog">
+  <div class="flex py-2 justify-content-center">
+    <p-fileUpload [customUpload]="true" (uploadHandler)="uploadExcelFile($event)" accept=".xlsx" [maxFileSize]="1000000" (onClear)="cancelUpload()">
+      <ng-template pTemplate="content">
+        <ul *ngIf="uploadedFiles.length">
+          <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+        </ul>
+      </ng-template>
+    </p-fileUpload>
+  </div>
+</p-dialog>
+<h2>Ethnicities</h2>
+<div class="surface-card p-3 mb-3 flex align-items-center justify-content-between" style="border-radius: 5px">
+  <div class="flex align-items-center">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search ml-2"></i>
+      <input type="text" class="text-900 font-medium p-inputtext-lg wide-input" pInputText [(ngModel)]="ethnicitySearchName" (input)="filterEthnicities()" />
+    </span>
+    <p-button pRipple icon="pi pi-download" class="p-button-text mx-3" severity="info" label="Download Excel" (onClick)="exportToExcel('ethnicity')"></p-button>
+    <p-button pRipple icon="pi pi-upload" class="p-button-text mr-3" severity="info" label="Upload Excel" (onClick)="openUploadDialog('ethnicity')"></p-button>
+  </div>
+  <div class="mr-2 ml-2 flex">
+    <p-button
+      pRipple
+      icon="pi pi-plus"
+      [rounded]="true"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Create a Ethnicity"
+      (onClick)="createNewObject('Ethnicity')"
+    ></p-button>
+    <p-button
+      pRipple
+      icon="pi pi-save"
+      [rounded]="true"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Update All Ethnicities"
+      (onClick)="confirmSaveAllEthnicities($event)"
+    ></p-button>
+  </div>
+</div>
+<div class="surface-ground">
+  <div class="grid">
+    <div *ngFor="let ethnicity of filteredEthnicities" class="col-12 lg:col-4 p-3">
+      <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="!ethnicity.edit">
+        <div style="width: 48px; height: 48px; border-radius: 10px" class="bg-teal-100 inline-flex align-items-center justify-content-center mr-3">
+          <i class="pi pi-android text-teal-600 text-3xl"></i>
+        </div>
+        <div style="max-width: 75%">
+          <span class="text-900 text-xl font-medium mb-2">{{ ethnicity.name }}</span>
+        </div>
+        <div class="ml-auto">
+          <p-confirmPopup></p-confirmPopup>
+          <p-button pRipple icon="pi pi-pencil" [rounded]="true" class="p-button-text mr-3" severity="info" (onClick)="editObject(ethnicity)"></p-button>
+          <p-button
+            pRipple
+            icon="pi pi-trash"
+            [rounded]="true"
+            class="p-button-text"
+            severity="warning"
+            (onClick)="confirmDeleteObject($event, ethnicity, 'Ethnicity')"
+          ></p-button>
+        </div>
+      </div>
+      <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="ethnicity.edit">
+        <div
+          style="width: 48px; height: 48px; border-radius: 10px"
+          class="bg-yellow-200 inline-flex align-items-center justify-content-center mr-5 ml-3"
+          *ngIf="ethnicity.edit"
+        >
+          <i class="pi pi-file-edit text-teal-600 text-3xl"></i>
+        </div>
+        <div>
+          <div>
+            <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="ethnicity.name" />
+          </div>
+        </div>
+        <div class="ml-auto">
+          <p-toast></p-toast>
+          <p-confirmPopup></p-confirmPopup>
+          <p-button
+            pRipple
+            icon="pi pi-save"
+            [rounded]="true"
+            class="p-button-text mr-3"
+            severity="info"
+            (onClick)="confirmSaveObject($event, ethnicity, 'Ethnicity')"
+          ></p-button>
+          <p-button
+            pRipple
+            icon="pi pi-times"
+            [rounded]="true"
+            class="p-button-text"
+            severity="warning"
+            (onClick)="cancelEditForEthnicity(ethnicity)"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  -->
+<h2>Nationalities</h2>
+<div class="surface-card p-3 mb-3 flex align-items-center justify-content-between" style="border-radius: 5px">
+  <div class="flex align-items-center">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search ml-2"></i>
+      <input
+        type="text"
+        class="text-900 font-medium p-inputtext-lg wide-input"
+        pInputText
+        [(ngModel)]="NationalitySearchName"
+        (input)="filterNationalities()"
+      />
+    </span>
+    <p-button
+      pRipple
+      icon="pi pi-download"
+      class="p-button-text mx-3"
+      severity="info"
+      label="Download Excel"
+      (onClick)="exportToExcel('nationality')"
+    ></p-button>
+    <p-button
+      pRipple
+      icon="pi pi-upload"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Upload Excel"
+      (onClick)="openUploadDialog('nationality')"
+    ></p-button>
+  </div>
+  <div class="mr-2 ml-2">
+    <p-button
+      pRipple
+      icon="pi pi-plus"
+      [rounded]="true"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Create a Nationality"
+      (onClick)="createNewObject('Nationality')"
+    ></p-button>
+    <p-button
+      pRipple
+      icon="pi pi-save"
+      [rounded]="true"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Update All Nationalities"
+      (onClick)="confirmSaveAllNationalities($event)"
+    ></p-button>
+  </div>
+</div>
+<div class="surface-ground">
+  <div class="grid">
+    <div *ngFor="let nationality of filteredNationalities" class="col-12 lg:col-4 p-3">
+      <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="!nationality.edit">
+        <div style="width: 48px; height: 48px; border-radius: 10px" class="bg-teal-100 inline-flex align-items-center justify-content-center mr-3">
+          <i class="pi pi-android text-teal-600 text-3xl"></i>
+        </div>
+        <div style="max-width: 75%">
+          <span class="text-900 text-xl font-medium mb-2">{{ nationality.name }}</span>
+        </div>
+        <div class="ml-auto">
+          <p-confirmPopup></p-confirmPopup>
+          <p-button pRipple icon="pi pi-pencil" [rounded]="true" class="p-button-text mr-3" severity="info" (onClick)="editObject(nationality)"></p-button>
+          <p-button
+            pRipple
+            icon="pi pi-trash"
+            [rounded]="true"
+            class="p-button-text"
+            severity="warning"
+            (onClick)="confirmDeleteObject($event, nationality, 'Nationality')"
+          ></p-button>
+        </div>
+      </div>
+      <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="nationality.edit">
+        <div
+          style="width: 48px; height: 48px; border-radius: 10px"
+          class="bg-yellow-200 inline-flex align-items-center justify-content-center mr-5 ml-3"
+          *ngIf="nationality.edit"
+        >
+          <i class="pi pi-file-edit text-teal-600 text-3xl"></i>
+        </div>
+        <div>
+          <div>
+            <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="nationality.name" />
+          </div>
+        </div>
+        <div class="ml-auto">
+          <p-toast></p-toast>
+          <p-confirmPopup></p-confirmPopup>
+          <p-button
+            pRipple
+            icon="pi pi-save"
+            [rounded]="true"
+            class="p-button-text mr-3"
+            severity="info"
+            (onClick)="confirmSaveObject($event, nationality, 'Nationality')"
+          ></p-button>
+          <p-button
+            pRipple
+            icon="pi pi-times"
+            [rounded]="true"
+            class="p-button-text"
+            severity="warning"
+            (onClick)="cancelEditForNationality(nationality)"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
