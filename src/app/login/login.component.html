@@ -1,4 +1,8 @@
+<div class="flex align-items-center justify-content-center all-height p-8" *ngIf="loading">
+  <p-progressSpinner ariaLabel="loading" styleClass="w-12rem h-12rem" animationDuration="4s"></p-progressSpinner>
+</div>
 <div
+  *ngIf="!loading"
   class="px-4 py-8 md:px-6 lg:px-8 flex align-items-center justify-content-center all-height"
   style="background: linear-gradient(-225deg, #ac32e4, #7918f2 48%, #4801ff)"
 >

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { Router } from '@angular/router';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { StyleClassModule } from 'primeng/styleclass';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -8,11 +11,12 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [InputTextModule, FormsModule, HttpClientModule],
+  imports: [InputTextModule, StyleClassModule, CommonModule, FormsModule, HttpClientModule, ProgressSpinnerModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  loading: boolean = true;
   email: string = '';
   password: string = '';
   failed: boolean = false;
@@ -38,9 +42,12 @@ export class LoginComponent {
   }
 
   async ngOnInit(): Promise<void> {
-    const isGirlLoggedIn = await this.authService.isAdminLoggedIn();
-    if (isGirlLoggedIn) {
-      this.router.navigate(['/admin/home ']);
+    const isUserLoggedIn = await this.authService.isAdminLoggedIn();
+    if (isUserLoggedIn) {
+      this.router.navigate(['/admin/home']);
+      this.loading = false;
+    } else {
+      this.loading = false;
     }
   }
 }
