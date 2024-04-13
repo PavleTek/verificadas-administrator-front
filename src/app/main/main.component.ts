@@ -6,6 +6,7 @@ import { AuthService } from '../auth.service';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { InternalService } from '../internal.service';
 import { MainService } from '../main.service';
+import { BadgeModule } from 'primeng/badge';
 
 import { CommonModule, Location } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -14,7 +15,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HttpClientModule, FormsModule, StyleClassModule, InputTextModule],
+  imports: [CommonModule, RouterOutlet, HttpClientModule, BadgeModule, FormsModule, StyleClassModule, InputTextModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })

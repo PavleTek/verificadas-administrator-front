@@ -6,8 +6,8 @@ import { environment } from '../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 import { InternalService } from './internal.service';
 
-const TOKEN_KEY = 'auth-token';
-const USER_KEY = 'auth-user';
+const TOKEN_KEY = 'verificadas-admin-auth-token';
+const USER_KEY = 'verificadas-admin-auth-user';
 interface TokenVerificationResponse {
   valid: boolean;
   data: any;

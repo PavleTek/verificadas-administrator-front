@@ -44,7 +44,7 @@ export class LoginComponent {
   async ngOnInit(): Promise<void> {
     const isUserLoggedIn = await this.authService.isAdminLoggedIn();
     if (isUserLoggedIn) {
-      this.router.navigate(['/admin/home']);
+      await this.router.navigate(['/admin/home']);
       this.loading = false;
     } else {
       this.loading = false;

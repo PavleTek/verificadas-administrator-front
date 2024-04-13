@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AdminUser, AppNotification, City, GirlUser, Service } from './types';
+import { AdminUser, AppNotification, City, GirlUser, Service, Girl } from './types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InternalService {
-  updateSingleGirlFromGirlUsers(allGirlUsers: GirlUser[], girl: any) {
-    throw new Error('Method not implemented.');
-  }
   private allGirlUsers = new BehaviorSubject<GirlUser[]>([]);
   private allServices = new BehaviorSubject<Service[]>([]);
   private allCities = new BehaviorSubject<City[]>([]);
@@ -37,5 +34,16 @@ export class InternalService {
 
   udpateCities(data: City[]) {
     this.allCities.next(data);
+  }
+
+  updateSingleGirlFromGirlUsers(allGirlUsers: GirlUser[], updatedGirl: Girl) {
+    const index = allGirlUsers.findIndex((user) => user.girlId === updatedGirl.id);
+    const allGirlUsersCopy = allGirlUsers;
+    if (index !== -1) {
+      const userToUpdate = allGirlUsersCopy[index];
+      userToUpdate.girl = updatedGirl;
+      allGirlUsersCopy[index] = userToUpdate;
+    }
+    this.allGirlUsers.next(allGirlUsers);
   }
 }

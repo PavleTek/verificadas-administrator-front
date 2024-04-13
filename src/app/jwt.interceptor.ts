@@ -1,5 +1,5 @@
 import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
-const TOKEN_KEY = 'auth-token';
+const TOKEN_KEY = 'verificadas-admin-auth-token';
 
 export const jwtInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, next) => {
   const token = localStorage.getItem(TOKEN_KEY);

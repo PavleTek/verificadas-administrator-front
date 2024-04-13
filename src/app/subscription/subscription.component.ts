@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -22,7 +23,18 @@ import { formatSpanishDate } from '../helper-functions';
 @Component({
   selector: 'app-subscription',
   standalone: true,
-  imports: [ButtonModule, InputNumberModule, CalendarModule, ToastModule, CommonModule, FormsModule, ConfirmPopupModule, TableModule, DropdownModule],
+  imports: [
+    ButtonModule,
+    InputNumberModule,
+    CalendarModule,
+    InputTextModule,
+    ToastModule,
+    CommonModule,
+    FormsModule,
+    ConfirmPopupModule,
+    TableModule,
+    DropdownModule,
+  ],
   templateUrl: './subscription.component.html',
   providers: [ConfirmationService, MessageService],
   styleUrl: './subscription.component.scss',

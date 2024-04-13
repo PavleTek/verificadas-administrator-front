@@ -83,15 +83,9 @@ export function formatAllMultimediaUrlsFromGirl(girl: Girl): Girl {
 }
 
 export function formatGirlImagesToUrls(images: MultimediaObject): MultimediaObject {
-  const requestImages: string[] = images.request.map((image) => {
-    return getPendingImageUrlFromImageName(image);
-  });
-  const activeImages: string[] = images.active.map((image) => {
-    return getImageUrlFromImageName(image);
-  });
-  const bluredFaceImages: string[] = images.bluredFace.map((image) => {
-    return getImageUrlFromImageName(image);
-  });
+  const requestImages = Array.isArray(images.request) ? images.request.map((image) => getPendingImageUrlFromImageName(image)) : [];
+  const activeImages = Array.isArray(images.active) ? images.active.map((image) => getImageUrlFromImageName(image)) : [];
+  const bluredFaceImages = Array.isArray(images.bluredFace) ? images.bluredFace.map((image) => getImageUrlFromImageName(image)) : [];
   return { request: requestImages, active: activeImages, bluredFace: bluredFaceImages };
 }
 
