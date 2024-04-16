@@ -8,7 +8,7 @@
   <div class="grid grid-nogutter align-items-center">
     <div>
       <span>
-        <input type="text" class="text-900 font-medium mb-3 lg:mr-4" pInputText [(ngModel)]="searchName" />
+        <input type="text" class="text-900 font-medium mb-3 lg:mr-4" pInputText [(ngModel)]="searchName" (input)="applyFilter()" />
       </span>
     </div>
     <p-multiSelect
@@ -90,7 +90,22 @@
           <!-- <span class="text-600 surface-200 p-2 border-round" *ngIf="user.girl.verification.status === 'Verified'"
             >Verification: {{ user.girl.verification.status }}</span
           > -->
-          <span class="text-600 surface-200 p-2 border-round">Verification: {{ user.girl.verification.status }}</span>
+          <ng-container *ngIf="user.girl.verification.status === pendingStatus">
+            <span class="text-600 surface-50 p-2 border-round">Verification {{ user.girl.verification.status }}</span>
+          </ng-container>
+          <ng-container *ngIf="user.girl.verification.status === scheduledStatus">
+            <a [href]="user.girl.verification.scheduledLink" class="border-transparent no-underline" target="_blank">
+              <span class="text-600 bg-orange-600 p-2 border-round text-900">{{ user.girl.verification.status }}</span>
+            </a>
+          </ng-container>
+          <ng-container *ngIf="user.girl.verification.status === processingStatus">
+            <a [href]="user.girl.verification.scheduledLink" class="no-underline" target="_blank">
+              <span class="text-600 bg-red-600 p-2 border-round text-900">{{ user.girl.verification.status }}</span>
+            </a>
+          </ng-container>
+          <ng-container *ngIf="user.girl.verification.status === verifiedStatus">
+            <span class="text-700 bg-teal-700 opacity-90 p-2 border-round text-900">{{ user.girl.verification.status }}</span>
+          </ng-container>
         </div>
         <div class="pt-3 border-top-1 surface-border flex">
           <button

@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { AdminUser, Girl, GirlUser } from '../types';
+import { AdminUser, Girl, GirlUser, VerificationStatus } from '../types';
 import {
   bottomSizeOptions,
   chestSizeOptions,
@@ -46,6 +46,12 @@ export class VerificationComponent {
   bottomSizeOptions: string[] = bottomSizeOptions;
   chestSizeOptions: string[] = chestSizeOptions;
   verificationStatusOptions: string[] = verificationStatusOptions;
+
+  pendingStatus = VerificationStatus.PENDING;
+  scheduledStatus = VerificationStatus.SCHEDULED;
+  processingStatus = VerificationStatus.PROCESSING;
+  verifiedStatus = VerificationStatus.VERIFIED;
+
   retoqueOptions: any[] = retoqueOptions;
 
   constructor(
@@ -58,6 +64,11 @@ export class VerificationComponent {
     this.internalService.allGirlUsersData.subscribe((data) => {
       if (data) {
         this.allGirlUsers = data;
+      }
+    });
+    this.internalService.activeAdminUserData.subscribe((data) => {
+      if (data) {
+        this.admin = data;
       }
     });
   }
@@ -121,6 +132,17 @@ export class VerificationComponent {
     this.girl.barbie = originalGirlCopy.barbie;
     this.girl.attributes = originalGirlCopy.attributes;
     this.girl.editLevel = originalGirlCopy.editLevel;
+  }
+
+  async setLinkFromCopyAndPaste() {
+    try {
+      // Use the Clipboard API to read text from the clipboard
+      const text = await navigator.clipboard.readText();
+      // Set the retrieved text to your variable
+      this.girl.verification.scheduledLink = text;
+    } catch (error) {
+      console.error('Failed to read clipboard contents: ', error);
+    }
   }
 
   async ngOnInit() {

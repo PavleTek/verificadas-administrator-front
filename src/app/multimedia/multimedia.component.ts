@@ -27,6 +27,7 @@ export class MultimediaComponent {
   @ViewChild('specificComponent') specificComponent: ElementRef | any;
 
   private baseImageUrl = environment.baseImageUrl;
+  loadingApproveImages: boolean = false;
   totalImages: number = 1;
   activeGaleriaImages: string[] = [];
   displayCustom: boolean = false;
@@ -151,7 +152,9 @@ export class MultimediaComponent {
       icon: 'pi pi-question-circle',
       accept: async () => {
         try {
+          this.loadingApproveImages = true;
           const approveImagesResponse = await this.mainService.approveImageRequest(girlId);
+          this.loadingApproveImages = false;
           if (approveImagesResponse.status === 200) {
             const formattedImages = formatGirlImagesToUrls(approveImagesResponse.data);
             this.girl.images = formattedImages;

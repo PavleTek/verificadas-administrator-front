@@ -43,7 +43,7 @@ export class NotificationsComponent {
   goToSolveNotification(notification: AppNotification) {
     const type = notification.type;
     if (type === 'AnounceRequest') {
-      this.router.navigate([`/admin/girls/createGirl/${notification.searchId}`]);
+      this.router.navigate([`/admin/girls/create/${notification.searchId}`]);
     } else if (type === 'MultimediaRequest') {
       this.router.navigate([`/admin/girls/multimedia/${notification.searchId}`]);
     }

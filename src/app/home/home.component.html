@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="flex flex-column flex-auto">
   <div class="grid">
     <div class="col-12">
@@ -43,22 +44,26 @@
     <div class="col-12 lg:col-6">
       <div class="shadow-2 surface-card border-round p-3">
         <div class="flex align-items-center justify-content-between">
-          <span class="text-xl font-medium text-900">Traffic Distribution</span>
+          <span class="text-xl font-medium text-900">Quick Functions</span>
         </div>
         <div class="mt-3">
           <div class="grid">
             <div class="col-12 md:col-6">
-              <div class="text-center border-1 surface-border border-round p-4">
-                <i class="pi pi-twitter text-5xl text-blue-500"></i>
-                <div class="text-900 text-2xl font-700 my-3 font-bold">12.40K</div>
-                <span class="font-medium text-600">Twitter</span>
+              <div class="text-center border-1 surface-border border-round p-4 flex flex-column">
+                <i class="pi pi-camera text-5xl text-blue-500 pr-2"></i>
+                <div class="text-900 text-2xl font-700 my-3 font-bold">
+                  <p-button label="Clean" icon="pi pi-delete-left" iconPos="right" severity="info" (onClick)="cleanMultimediaData()"></p-button>
+                </div>
+                <span class="font-medium text-600">Clean Image Data</span>
               </div>
             </div>
-            <div class="col-12 md:col-6 text-center">
+            <div class="col-12 md:col-6 text-center flex flex-column">
               <div class="text-center border-1 surface-border border-round p-4">
-                <i class="pi pi-vimeo text-5xl text-blue-500"></i>
-                <div class="text-900 text-2xl font-700 my-3 font-bold">10.20K</div>
-                <span class="font-medium text-600">Vimeo</span>
+                <i class="pi pi-video text-5xl text-blue-500 pr-2"></i>
+                <div class="text-900 text-2xl font-700 my-3 font-bold">
+                  <p-button label="Clean" icon="pi pi-delete-left" iconPos="right" severity="info" (onClick)="cleanMultimediaData()"></p-button>
+                </div>
+                <span class="font-medium text-600">Clean Video Data</span>
               </div>
             </div>
             <div class="col-12 md:col-6 text-center">
@@ -96,50 +101,50 @@
     <div class="col-12 lg:col-6">
       <div class="surface-card shadow-2 border-round p-4">
         <div class="flex align-items-center justify-content-between mb-4">
-          <span class="text-xl font-medium text-900">Quarter Goals</span>
+          <span class="text-xl font-medium text-900">Clients</span>
         </div>
         <div class="surface-border border-1 border-round p-3 mb-4">
-          <span class="text-900 font-medium text-3xl">85% <span class="text-600">(2125/2500)</span></span>
+          <span class="text-900 font-medium text-3xl"
+            >{{ userPercentage | number : "1.0-1" }}% <span class="text-600">({{ allUsers.length }}/{{ goalQuantity }})</span></span
+          >
           <ul class="mt-3 list-none p-0 mx-0 flex">
-            <li style="height: 1rem" class="flex-1 bg-indigo-500 border-round-left"></li>
-            <li style="height: 1rem" class="flex-1 bg-blue-500"></li>
-            <li style="height: 1rem" class="flex-1 bg-orange-500"></li>
-            <li style="height: 1rem" class="flex-1 bg-purple-500"></li>
-            <li style="height: 1rem" class="flex-1 bg-yellow-500"></li>
-            <li style="height: 1rem" class="flex-1 bg-cyan-500"></li>
-            <li style="height: 1rem" class="flex-1 surface-500 border-round-right"></li>
+            <li [style.width.%]="specialWidth" style="height: 1rem" class="bg-orange-500"></li>
+            <li [style.width.%]="premiumWidth" style="height: 1rem" class="bg-purple-500"></li>
+            <li [style.width.%]="regularWidth" style="height: 1rem" class="bg-yellow-500"></li>
+            <li [style.width.%]="economicWidth" style="height: 1rem" class="bg-cyan-500"></li>
+            <li [style.width.%]="remainingUsersWidth" style="height: 1rem" class="surface-500 border-round-right"></li>
           </ul>
         </div>
         <ul class="mt-4 list-none p-0 mx-0">
           <li class="flex align-items-center pb-3">
             <span style="width: 1rem; height: 1rem" class="border-round bg-indigo-500 mr-3 flex-shrink-0"></span>
-            <span class="text-xl font-medium text-90">Watch</span>
-            <span class="text-600 text-xl font-medium ml-auto">152</span>
+            <span class="text-xl font-medium text-90">Active</span>
+            <span class="text-600 text-xl font-medium ml-auto">{{ activeUsersQuantity }}</span>
           </li>
           <li class="flex align-items-center py-3">
             <span style="width: 1rem; height: 1rem" class="border-round bg-blue-500 mr-3 flex-shrink-0"></span>
-            <span class="text-xl font-medium text-90">Blue Band</span>
-            <span class="text-600 text-xl font-medium ml-auto">63</span>
+            <span class="text-xl font-medium text-90">Pending Verification</span>
+            <span class="text-600 text-xl font-medium ml-auto">{{ pendingVerificationQuantity }}</span>
           </li>
           <li class="flex align-items-center py-3">
             <span style="width: 1rem; height: 1rem" class="border-round bg-orange-500 mr-3 flex-shrink-0"></span>
-            <span class="text-xl font-medium text-90">Controller</span>
-            <span class="text-600 text-xl font-medium ml-auto">23</span>
+            <span class="text-xl font-medium text-90">Special</span>
+            <span class="text-600 text-xl font-medium ml-auto">{{ specialQuantity }}</span>
           </li>
           <li class="flex align-items-center py-3">
             <span style="width: 1rem; height: 1rem" class="border-round bg-purple-500 mr-3 flex-shrink-0"></span>
-            <span class="text-xl font-medium text-90">Lime Band</span>
-            <span class="text-600 text-xl font-medium ml-auto">42</span>
+            <span class="text-xl font-medium text-90">Premium</span>
+            <span class="text-600 text-xl font-medium ml-auto">{{ premiumQuantity }}</span>
           </li>
           <li class="flex align-items-center py-3">
             <span style="width: 1rem; height: 1rem" class="border-round bg-yellow-500 mr-3 flex-shrink-0"></span>
-            <span class="text-xl font-medium text-90">Phone Case</span>
-            <span class="text-600 text-xl font-medium ml-auto">134</span>
+            <span class="text-xl font-medium text-90">Regular</span>
+            <span class="text-600 text-xl font-medium ml-auto">{{ regularQuantity }}</span>
           </li>
           <li class="flex align-items-center py-3">
             <span style="width: 1rem; height: 1rem" class="border-round bg-cyan-500 mr-3 flex-shrink-0"></span>
-            <span class="text-xl font-medium text-90">T-Shirt</span>
-            <span class="text-600 text-xl font-medium ml-auto">89</span>
+            <span class="text-xl font-medium text-90">Economic</span>
+            <span class="text-600 text-xl font-medium ml-auto">{{ economicQuantity }}</span>
           </li>
         </ul>
       </div>

@@ -13,7 +13,7 @@ import { Component, HostListener } from '@angular/core';
 import { paymentTierOptions, verificationStatusOptions } from '../consts';
 import { cloneDeep } from 'lodash';
 import { cleanPhoneNumberForDisplay, formatAllMultimediaUrlsFromGirl, generatePassword } from '../helper-functions';
-import { AdminUser, City, Girl, GirlUser } from '../types';
+import { AdminUser, City, Girl, GirlUser, VerificationStatus } from '../types';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { MainService } from '../main.service';
 import { AuthService } from '../auth.service';
@@ -51,6 +51,11 @@ export class GirlsComponent {
   originalActiveGirl: Girl | boolean = false;
   allCities: City[] = [];
 
+  pendingStatus = VerificationStatus.PENDING;
+  scheduledStatus = VerificationStatus.SCHEDULED;
+  processingStatus = VerificationStatus.PROCESSING;
+  verifiedStatus = VerificationStatus.VERIFIED;
+
   // Filter Logic
   searchName = '';
   verificationStatusOptions: string[] = verificationStatusOptions;
@@ -62,10 +67,10 @@ export class GirlsComponent {
 
   constructor(
     private mainService: MainService,
+    private internalService: InternalService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private authService: AuthService,
-    private internalService: InternalService,
     private router: Router
   ) {
     this.internalService.allGirlUsersData.subscribe((data) => {

@@ -653,6 +653,16 @@ export class MainService {
     }
   }
 
+  async cleanMultimediaData(): Promise<any> {
+    try {
+      const response = await this.http.put(`${this.baseUrl}/multimedia-api/cleanMultimedia`, {}).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error cleaning multimedia data', error);
+      throw error;
+    }
+  }
+
   async getAllNotifications(): Promise<any> {
     try {
       const response = await this.http.get(`${this.baseUrl}/admin-api/notification`).toPromise();

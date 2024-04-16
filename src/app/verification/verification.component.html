@@ -29,6 +29,12 @@
         <div class="text-500 w-6 md:w-2 font-medium">Fecha De Nacimiento</div>
         <p-calendar [(ngModel)]="girl.bday" [showIcon]="true" inputId="buttondisplay"></p-calendar>
       </li>
+      <!-- Link for appointment -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Calendar Link</div>
+        <input type="text" class="text-900 font-medium p-inputtext-sm" pInputText [(ngModel)]="girl.verification.scheduledLink" />
+        <p-button icon="pi pi-paperclip" size="small" iconPos="right" (onClick)="setLinkFromCopyAndPaste()"></p-button>
+      </li>
       <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
         <p-button label="Cancel changes" icon="pi pi-eraser" iconPos="right" class="pr-5" (onClick)="cancelVerificationInformationUpdate()"></p-button>
         <p-button label="Save" icon="pi pi-save" iconPos="right" (onClick)="updateInformationVerification()"></p-button>

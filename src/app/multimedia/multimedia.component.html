@@ -47,7 +47,12 @@
       </div>
       <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
         <p-button label="Reject Images" icon="pi pi-times" iconPos="right" class="pr-5" (onClick)="rejectImages($event)"></p-button>
-        <p-button label="Approve Images" icon="pi pi-check-circle" iconPos="right" (onClick)="approveImages($event, girl.id)"></p-button>
+        <ng-container *ngIf="!loadingApproveImages">
+          <p-button label="Approve Images" icon="pi pi-check-circle" iconPos="right" (onClick)="approveImages($event, girl.id)"></p-button>
+        </ng-container>
+        <ng-container *ngIf="loadingApproveImages">
+          <p-button label="Approve Images" icon="pi pi-spin pi-spinner" iconPos="right" (onClick)="approveImages($event, girl.id)"></p-button>
+        </ng-container>
       </li>
     </ul>
   </div>
