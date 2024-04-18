@@ -1,8 +1,8 @@
 export const environment = {
     production: true,
     noDisplayValue: 'No Especificar',
-    baseUrl: 'http://api.verificadas.cl',
-    baseImageUrl: 'http://api.verificadas.cl/images',
-    basePendingimageUrl: 'http://api.verificadas.cl/pending-images',
+    baseUrl: 'https://api.verificadas.cl',
+    baseImageUrl: 'https://api.verificadas.cl/images',
+    basePendingimageUrl: 'https://api.verificadas.cl/pending-images',
   };
   
