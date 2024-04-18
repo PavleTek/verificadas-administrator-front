@@ -239,6 +239,8 @@ export class GirlsComponent {
     });
   }
 
+  confirmDeleteGirlUser() {}
+
   async ngOnInit(): Promise<void> {
     let allGirlUsers: GirlUser[] = await this.mainService.getAllGirlUsers();
     allGirlUsers = allGirlUsers.map((girlUser: GirlUser) => {
