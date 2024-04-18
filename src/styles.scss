@@ -3,3 +3,13 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 @import "../node_modules/primeflex/primeflex.css";
+
+.body-contanier {
+  max-width: 2000px;
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
