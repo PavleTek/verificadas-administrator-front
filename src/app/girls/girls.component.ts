@@ -1,6 +1,7 @@
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
 import { SpeedDialModule } from 'primeng/speeddial';
@@ -31,6 +32,7 @@ import { Router } from '@angular/router';
     SpeedDialModule,
     MultiSelectModule,
     FormsModule,
+    DialogModule,
     InputTextModule,
     ConfirmDialogModule,
     ToastModule,
@@ -64,6 +66,9 @@ export class GirlsComponent {
   selectedPaymentTierOptions: string[] = [];
   subscriptionActiveFilter: boolean = false;
   pendingMultimediaFilter: boolean = false;
+  deleteUserDialogVisible: boolean = false;
+  deleteUserConfirmationWord: string = '';
+  deleteUserConfirmationWordExpected: string = 'deleteUser';
 
   constructor(
     private mainService: MainService,
@@ -134,6 +139,50 @@ export class GirlsComponent {
       return containsPaymentTier && containsVerificationStatus && containsSubstringSearchName && validActiveCriteria && validPendingMultimediaCriteria;
     });
     this.filteredUsers = filteredUsers;
+  }
+
+  showDeleteUserDialog() {
+    this.deleteUserConfirmationWord = '';
+    this.deleteUserDialogVisible = true;
+    const userIdToDelete = this.activeGirlUserForSpeedDial;
+    console.log(userIdToDelete);
+  }
+
+  async deleteUser() {
+    if (this.deleteUserConfirmationWord === this.deleteUserConfirmationWordExpected) {
+      if (this.activeGirlUserForSpeedDial) {
+        const response = await this.mainService.deleteUserById(this.activeGirlUserForSpeedDial?.id);
+        if (response.status === 200) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: `Succesfully Deleted User`,
+            life: 3000,
+          });
+          this.deleteUserConfirmationWord = '';
+          this.closeDeleteUserDialog();
+          await this.ngOnInit();
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Rejected',
+            detail: `Error occurred while tryng to delete user`,
+            life: 3000,
+          });
+        }
+      }
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Rejected',
+        detail: `Please enter the correct confirmation word for deleting`,
+        life: 3000,
+      });
+    }
+  }
+
+  closeDeleteUserDialog() {
+    this.deleteUserDialogVisible = false;
   }
 
   startGirlUserCreation() {
@@ -261,15 +310,9 @@ export class GirlsComponent {
         },
       },
       {
-        icon: 'pi pi-refresh',
-        command: () => {
-          this.messageService.add({ severity: 'success', summary: 'Update', detail: 'Data Updated' });
-        },
-      },
-      {
         icon: 'pi pi-trash',
         command: () => {
-          this.messageService.add({ severity: 'error', summary: 'Delete', detail: 'Data Deleted' });
+          this.showDeleteUserDialog();
         },
       },
     ];

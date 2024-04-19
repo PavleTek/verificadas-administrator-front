@@ -702,4 +702,14 @@ export class MainService {
       throw error;
     }
   }
+
+  async deleteUserById(userId: string | number): Promise<any> {
+    try {
+      const response = await this.http.delete(`${this.baseUrl}/admin-api/user/${userId}`).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error Deleting user', error);
+      throw error;
+    }
+  }
 }
