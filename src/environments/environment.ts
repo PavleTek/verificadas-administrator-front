@@ -10,6 +10,8 @@ export const environment = {
   production: false,
   noDisplayValue: 'No Especificar',
   baseUrl: 'http://localhost:3000',
-  baseImageUrl: 'http://localhost:3000/images',
-  basePendingimageUrl: 'http://localhost:3000/pending-images',
+  baseMultimediaUrl: 'http://localhost:3100',
+  baseImageUrl: 'http://localhost:3100/images',
+  basePendingimageUrl: 'http://localhost:3100/pending-images',
 };
+

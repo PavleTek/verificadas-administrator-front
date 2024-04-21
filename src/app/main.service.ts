@@ -13,6 +13,7 @@ interface Response {
 })
 export class MainService {
   private baseUrl = environment.baseUrl;
+  private baseMultimediaUrl = environment.baseMultimediaUrl;
 
   constructor(private http: HttpClient, private internalService: InternalService) {}
 
@@ -351,16 +352,6 @@ export class MainService {
   }
 
   // Safety Logic
-  async createReview(review: ClientReview): Promise<any> {
-    try {
-      const response = await this.http.post(`${this.baseUrl}/girl-api/clientReview/`, review).toPromise();
-      return response;
-    } catch (error) {
-      console.error('Error deleting service:', error);
-      throw error;
-    }
-  }
-
   async getAllReviewsByGirl(girlId: number): Promise<any> {
     try {
       const response = await this.http.get(`${this.baseUrl}/girl-api/clientReviewByGirl/${girlId}`).toPromise();
@@ -519,39 +510,9 @@ export class MainService {
     }
   }
 
-  //  Multimedia Logic
-  async uploadImagesRequest(images: any[], girlId: number): Promise<any> {
-    try {
-      const formData = new FormData();
-      images.forEach((image) => {
-        formData.append('images', image, image.name); // Make sure to include the file name
-      });
-      const response = await this.http.post(`${this.baseUrl}/multimedia-api/request/${girlId}`, formData).toPromise();
-      return response;
-    } catch (error) {
-      console.error('Error while uploading images', error);
-      return error;
-    }
-  }
-
-  // has to be an array because of some functions from libraries on the back end side, won't even try to solve this
-  async uploadProfilePictureRequest(images: any[], girlId: number): Promise<any> {
-    try {
-      const formData = new FormData();
-      images.forEach((image) => {
-        formData.append('images', image, image.name); // Make sure to include the file name
-      });
-      const response = await this.http.post(`${this.baseUrl}/multimedia-api/profilePictureRequest/${girlId}`, formData).toPromise();
-      return response;
-    } catch (error) {
-      console.error('Error while uploading profilePicture', error);
-      return error;
-    }
-  }
-
   async approveImageRequest(girlId: number): Promise<any> {
     try {
-      const response = await this.http.put(`${this.baseUrl}/multimedia-api/approve/${girlId}`, {}).toPromise();
+      const response = await this.http.put(`${this.baseMultimediaUrl}/multimedia-api/approve/${girlId}`, {}).toPromise();
       return response;
     } catch (error) {
       console.error('Error while approving images', error);
@@ -561,7 +522,7 @@ export class MainService {
 
   async approveProfilePictureRequest(girlId: number): Promise<any> {
     try {
-      const response = await this.http.put(`${this.baseUrl}/multimedia-api/approveProfilePicture/${girlId}`, {}).toPromise();
+      const response = await this.http.put(`${this.baseMultimediaUrl}/multimedia-api/approveProfilePicture/${girlId}`, {}).toPromise();
       return response;
     } catch (error) {
       console.error('Error while approving profile picture', error);
@@ -655,7 +616,7 @@ export class MainService {
 
   async cleanMultimediaData(): Promise<any> {
     try {
-      const response = await this.http.put(`${this.baseUrl}/multimedia-api/cleanMultimedia`, {}).toPromise();
+      const response = await this.http.put(`${this.baseMultimediaUrl}/multimedia-api/cleanMultimedia`, {}).toPromise();
       return response;
     } catch (error) {
       console.error('Error cleaning multimedia data', error);
