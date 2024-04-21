@@ -1,10 +1,12 @@
 // export const environment = {
-//   production: false,
+//   production: true,
 //   noDisplayValue: 'No Especificar',
+//   baseMultimediaUrl: 'https://cdn.verificadas.cl',
 //   baseUrl: 'https://api.verificadas.cl',
-//   baseImageUrl: 'https://api.verificadas.cl/images',
-//   basePendingimageUrl: 'https://api.verificadas.cl/pending-images',
+//   baseImageUrl: 'https://cdn.verificadas.cl/images',
+//   basePendingimageUrl: 'https://cdn.verificadas.cl/pending-images',
 // };
+
 
 export const environment = {
   production: false,
