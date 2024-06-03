@@ -1,0 +1,121 @@
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>
+<div class="surface-card p-3 mb-3 flex align-items-center justify-content-between" style="border-radius: 5px">
+  <div class="flex align-items-center">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search ml-2"></i>
+      <input type="text" class="text-900 font-medium p-inputtext-lg wide-input" pInputText [(ngModel)]="searchName" (input)="filterBlogs()" />
+    </span>
+  </div>
+  <div class="mr-2 ml-2 flex">
+    <p-button
+      pRipple
+      icon="pi pi-plus"
+      [rounded]="true"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Create Blog"
+      (onClick)="startCreatingBlog()"
+    ></p-button>
+  </div>
+</div>
+<div class="grid nogutter">
+  <div class="col-12 lg:col-4 p-3 no-underline" *ngFor="let blog of this.filteredBlogs">
+    <div class="shadow-2 border-round h-full surface-card">
+      <div class="p-4">
+        <span class="block font-medium text-pink-600 mb-3">{{ blog.category }}</span>
+        <div class="text-xl text-900 font-medium mb-3 line-height-3">
+          {{ blog.title }}
+        </div>
+        <div class="line-height-3 mb-3 text-700">
+          {{ blog.shortDescription }}
+        </div>
+      </div>
+      <div class="flex pb-3">
+        <p-button label="Edit" icon="pi pi-pencil" iconPos="right" class="pl-2" (onClick)="startEditingBlog(blog)"></p-button>
+        <p-button label="Show" icon="pi pi-eye" iconPos="right" class="pl-2" (onClick)="seletecBlogToShow(blog)"></p-button>
+        <p-button label="Delete" icon="pi pi-trash" iconPos="right" class="pl-2" (onClick)="confirmDeleteBlog($event, blog)"></p-button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="activeBlog !== false && activeBlog !== true">
+  <div class="surface-card p-4 shadow-2 border-round">
+    <h2>New Blog</h2>
+    <ul class="list-none p-0 m-0">
+      <!-- Title -->
+      <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Title</div>
+        <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="activeBlog.title" />
+      </li>
+      <!-- Category -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Category</div>
+        <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="activeBlog.category" />
+      </li>
+      <!-- Short Description -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Short Description</div>
+        <textarea pInputTextarea [(ngModel)]="activeBlog.shortDescription"></textarea>
+      </li>
+      <!-- Meta Title -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Meta Title or tab title</div>
+        <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="activeBlog.metaTitle" />
+      </li>
+      <!-- Meta Description -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Meta Description</div>
+        <textarea pInputTextarea [(ngModel)]="activeBlog.metaDescription"></textarea>
+      </li>
+      <li class="flex flex-column py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium pb-2">Content</div>
+        <p-editor [(ngModel)]="activeBlog.content" [style]="{ height: '320px' }" class="editor" />
+      </li>
+      <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
+        <p-button label="Cancel changes" icon="pi pi-eraser" iconPos="right" class="pr-5" (onClick)="cancelCreateOrEditblog()"></p-button>
+        <p-button label="Save" icon="pi pi-save" iconPos="right" (onClick)="confirmUpdateBlog($event)"></p-button>
+      </li>
+    </ul>
+  </div>
+</div>
+<div *ngIf="newBlog !== false && newBlog !== true">
+  <div class="surface-card p-4 shadow-2 border-round">
+    <h2>New Blog</h2>
+    <ul class="list-none p-0 m-0">
+      <!-- Title -->
+      <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Title</div>
+        <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="newBlog.title" />
+      </li>
+      <!-- Category -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Category</div>
+        <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="newBlog.category" />
+      </li>
+      <!-- Short Description -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Short Description</div>
+        <textarea pInputTextarea [(ngModel)]="newBlog.shortDescription"></textarea>
+      </li>
+      <!-- Meta Title -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Meta Title or tab title</div>
+        <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="newBlog.metaTitle" />
+      </li>
+      <!-- Meta Description -->
+      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium">Meta Description</div>
+        <textarea pInputTextarea [(ngModel)]="newBlog.metaDescription"></textarea>
+      </li>
+      <li class="flex flex-column py-3 px-2 border-top-1 surface-border flex-wrap">
+        <div class="text-500 w-6 md:w-2 font-medium pb-2">Content</div>
+        <p-editor [(ngModel)]="newBlog.content" [style]="{ height: '320px' }" class="editor" />
+      </li>
+      <li class="flex align-items-center justify-content-between border-top-1 px-2 surface-border flex-wrap pt-4">
+        <p-button label="Cancel changes" icon="pi pi-eraser" iconPos="right" class="pr-5" (onClick)="cancelCreateOrEditblog()"></p-button>
+        <p-button label="Save" icon="pi pi-save" iconPos="right" (onClick)="confirmCreateBlog($event)"></p-button>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -69,6 +69,10 @@ export class MainComponent {
     this.router.navigate(['/admin/reports']);
   }
 
+  goToBlogsView() {
+    this.router.navigate(['/admin/blogs'])
+  }
+
   goToPricing() {
     this.router.navigate(['/admin/pricing']);
   }

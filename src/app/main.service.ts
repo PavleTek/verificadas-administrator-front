@@ -340,6 +340,57 @@ export class MainService {
     }
   }
 
+  // Blogs Logic
+  async getBlogById(blogId: number | string): Promise<any> {
+    try {
+      const response = await this.http.get(`${this.baseUrl}/girl-api/blogs/${blogId}`).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+
+  async getAllBlogs(): Promise<any> {
+    try {
+      const response = await this.http.get(`${this.baseUrl}/girl-api/blogs`).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+
+  async createBlog(blog: any): Promise<any> {
+    try {
+      const response = await this.http.post(`${this.baseUrl}/admin-api/blogs`, blog).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error creating blog:', error);
+      throw error;
+    }
+  }
+
+  async updateBlog(blog: any): Promise<any> {
+    try {
+      const response = await this.http.put(`${this.baseUrl}/admin-api/blogs`, blog).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error updating blog:', error);
+      throw error;
+    }
+  }
+
+  async deleteBlog(blog: any): Promise<any> {
+    try {
+      const response = await this.http.delete(`${this.baseUrl}/admin-api/blogs/${blog.id}`).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error deleting Blog:', error);
+      throw error;
+    }
+  }
+
   // Girls Functions
   async getWholeGirlUserById(userId: number): Promise<any> {
     try {

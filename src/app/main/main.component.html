@@ -127,6 +127,16 @@
               </li>
             </ul>
           </li>
+          <li (click)="goToBlogsView()">
+            <a
+              pRipple
+              class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center border-left-2 hover:border-300 transition-duration-150 transition-colors"
+              [ngClass]="{ 'text-purple-500 border-purple-500': currentView === 'blogs', 'text-600 border-transparent': currentView !== 'blogs' }"
+            >
+              <i class="pi pi-th-large mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
+              <span class="font-medium inline text-base lg:text-xs lg:block">blogs</span>
+            </a>
+          </li>
           <li (click)="goToServiceView()">
             <a
               pRipple

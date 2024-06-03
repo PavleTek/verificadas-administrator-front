@@ -14,6 +14,8 @@ import { MultimediaComponent } from './multimedia/multimedia.component';
 import { CreateGirlComponent } from './create-girl/create-girl.component';
 import { ReportsComponent } from './reports/reports.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { BlogsComponent } from './blogs/blogs.component';
+import { BlogViewComponent } from './blog-view/blog-view.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,6 +31,14 @@ export const routes: Routes = [
       { path: 'service', component: ServicesComponent },
       { path: 'pricing', component: PricingComponent },
       { path: 'nationality', component: NationalitiesComponent },
+      {
+        path: 'blogs',
+        children: [
+          { path: '', redirectTo: 'all', pathMatch: 'full' },
+          { path: 'all', component: BlogsComponent },
+          { path: 'view/:id', component: BlogViewComponent },
+        ],
+      },
       {
         path: 'girls',
         children: [

@@ -237,6 +237,17 @@ export type Service = {
   new?: boolean;
 };
 
+export type Blog = {
+  id?: number;
+  title: string;
+  shortDescription: string;
+  content?: string;
+  metaTitle?: string;
+  category?: string;
+  metaDescription?: string;
+  createdAt?: Date;
+};
+
 export type City = {
   id?: number;
   name: string;
