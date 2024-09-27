@@ -1,115 +1,128 @@
 <p-dialog [(visible)]="visibleUploadDialog">
-    <div class="flex py-2 justify-content-center">
-      <p-fileUpload
-        [customUpload]="true"
-        (uploadHandler)="uploadExcelFile($event)"
-        [multiple]="true"
-        accept=".xlsx"
-        [maxFileSize]="1000000"
-        [fileLimit]="1"
-        (onClear)="cancelUpload()"
-      >
-        <ng-template pTemplate="content">
-          <ul *ngIf="uploadedFiles.length">
-            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
-          </ul>
-        </ng-template>
-      </p-fileUpload>
-    </div>
-  </p-dialog>
-  <div class="surface-card p-3 mb-3 flex align-items-center justify-content-between" style="border-radius: 5px">
-    <div class="flex align-items-center">
-      <span class="p-input-icon-right">
-        <i class="pi pi-search ml-2"></i>
-        <input type="text" class="text-900 font-medium p-inputtext-lg wide-input" pInputText [(ngModel)]="searchName" (input)="filterServices()" />
-      </span>
-      <p-button pRipple icon="pi pi-download" class="p-button-text mx-3" severity="info" label="Download Excel" (onClick)="exportToExcel()"></p-button>
-      <p-button pRipple icon="pi pi-upload" class="p-button-text mr-3" severity="info" label="Upload Excel" (onClick)="openUploadDialog()"></p-button>
-    </div>
-    <div class="mr-2 ml-2 flex">
-      <p-button
-        pRipple
-        icon="pi pi-plus"
-        [rounded]="true"
-        class="p-button-text mr-3"
-        severity="info"
-        label="Create service"
-        (onClick)="createService()"
-      ></p-button>
-      <p-button
-        pRipple
-        icon="pi pi-save"
-        [rounded]="true"
-        class="p-button-text mr-3"
-        severity="info"
-        label="Update All Services"
-        (onClick)="confirmUpdateAllServices($event)"
-      ></p-button>
-    </div>
+  <div class="flex py-2 justify-content-center">
+    <p-fileUpload
+      [customUpload]="true"
+      (uploadHandler)="uploadExcelFile($event)"
+      [multiple]="true"
+      accept=".xlsx"
+      [maxFileSize]="1000000"
+      [fileLimit]="1"
+      (onClear)="cancelUpload()"
+    >
+      <ng-template pTemplate="content">
+        <ul *ngIf="uploadedFiles.length">
+          <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+        </ul>
+      </ng-template>
+    </p-fileUpload>
   </div>
-  <p-toast></p-toast>
-  <div class="surface-ground">
-    <div class="grid">
-      <div *ngFor="let service of filteredServices" class="col-12 lg:col-4 p-3">
-        <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="!service.edit">
-          <div style="width: 48px; height: 48px; border-radius: 10px" class="bg-teal-100 inline-flex align-items-center justify-content-center mr-3">
-            <i class="pi pi-book text-teal-600 text-3xl"></i>
-          </div>
-          <div style="max-width: 75%">
-            <span class="text-900 text-xl font-medium mb-2">{{ service.name }}</span>
-            <p class="mt-1 mb-0 text-600 font-medium text-sm">{{ service.description }}</p>
-          </div>
-          <div class="ml-auto">
-            <p-confirmPopup></p-confirmPopup>
-            <p-button pRipple icon="pi pi-pencil" [rounded]="true" class="p-button-text mr-3" severity="info" (onClick)="editService(service)"></p-button>
-            <p-button
-              pRipple
-              icon="pi pi-trash"
-              [rounded]="true"
-              class="p-button-text"
-              severity="warning"
-              (onClick)="confirmDeleteService($event, service)"
-            ></p-button>
-          </div>
+</p-dialog>
+<div class="surface-card p-3 mb-3 flex align-items-center justify-content-between" style="border-radius: 5px">
+  <div class="flex align-items-center">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search ml-2"></i>
+      <input type="text" class="text-900 font-medium p-inputtext-lg wide-input" pInputText [(ngModel)]="searchName" (input)="filterServices()" />
+    </span>
+    <p-button pRipple icon="pi pi-download" class="p-button-text mx-3" severity="info" label="Download Excel" (onClick)="exportToExcel()"></p-button>
+    <p-button pRipple icon="pi pi-upload" class="p-button-text mr-3" severity="info" label="Upload Excel" (onClick)="openUploadDialog()"></p-button>
+  </div>
+  <div class="mr-2 ml-2 flex">
+    <p-button
+      pRipple
+      icon="pi pi-plus"
+      [rounded]="true"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Create service"
+      (onClick)="createService()"
+    ></p-button>
+    <p-button
+      pRipple
+      icon="pi pi-save"
+      [rounded]="true"
+      class="p-button-text mr-3"
+      severity="info"
+      label="Save All Changes"
+      (onClick)="confirmUpdateAllServices($event)"
+    ></p-button>
+  </div>
+</div>
+<p-toast></p-toast>
+<div class="surface-ground">
+  <div class="grid">
+    <div *ngFor="let service of filteredServices" class="col-12 lg:col-4 p-3">
+      <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="!service.edit">
+        <div style="width: 48px; height: 48px; border-radius: 10px" class="bg-teal-100 inline-flex align-items-center justify-content-center mr-3">
+          <i class="pi pi-book text-teal-600 text-3xl"></i>
         </div>
-        <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="service.edit">
-          <div
-            style="width: 48px; height: 48px; border-radius: 10px"
-            class="bg-yellow-200 inline-flex align-items-center justify-content-center mr-5 ml-3"
-            *ngIf="service.edit"
-          >
-            <i class="pi pi-file-edit text-teal-600 text-3xl"></i>
+        <div style="max-width: 75%">
+          <span class="text-900 text-xl font-medium mb-2">{{ service.name }}</span>
+          <p class="mt-1 mb-0 text-600 font-medium text-sm">{{ service.description }}</p>
+        </div>
+        <div class="ml-auto">
+          <p-confirmPopup></p-confirmPopup>
+          <p-button pRipple icon="pi pi-pencil" [rounded]="true" class="p-button-text mr-3" severity="info" (onClick)="editService(service)"></p-button>
+          <p-button
+            pRipple
+            icon="pi pi-trash"
+            [rounded]="true"
+            class="p-button-text"
+            severity="warning"
+            (onClick)="confirmDeleteService($event, service)"
+          ></p-button>
+        </div>
+      </div>
+      <div class="p-3 border-round shadow-2 flex align-items-center surface-card" *ngIf="service.edit">
+        <div
+          style="width: 48px; height: 48px; border-radius: 10px"
+          class="bg-yellow-200 inline-flex align-items-center justify-content-center mr-5 ml-3"
+          *ngIf="service.edit"
+        >
+          <i class="pi pi-file-edit text-teal-600 text-3xl"></i>
+        </div>
+        <div>
+          <div>
+            <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="service.name" />
           </div>
           <div>
-            <div>
-              <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="service.name" />
-            </div>
-            <div>
-              <textarea
-                rows="3"
-                cols="45"
-                pInputTextarea
-                [autoResize]="true"
-                class="mt-1 mb-0 text-600 font-medium text-sm max-width"
-                [(ngModel)]="service.description"
-              ></textarea>
-            </div>
+            <textarea
+              rows="3"
+              cols="45"
+              pInputTextarea
+              [autoResize]="true"
+              class="mt-1 mb-0 text-600 font-medium text-sm max-width"
+              [(ngModel)]="service.description"
+            ></textarea>
           </div>
-          <div class="ml-auto">
-            <p-toast></p-toast>
-            <p-confirmPopup></p-confirmPopup>
-            <p-button
-              pRipple
-              icon="pi pi-save"
-              [rounded]="true"
-              class="p-button-text mr-3"
-              severity="info"
-              (onClick)="confirmSaveService($event, service)"
-            ></p-button>
-            <p-button pRipple icon="pi pi-times" [rounded]="true" class="p-button-text" severity="warning" (onClick)="cancelEdit(service)"></p-button>
+          <h3>Meta Info</h3>
+          <div>
+            <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="service.metaTitle" />
           </div>
+          <div>
+            <textarea
+              rows="3"
+              cols="45"
+              pInputTextarea
+              [autoResize]="true"
+              class="mt-1 mb-0 text-600 font-medium text-sm max-width"
+              [(ngModel)]="service.metaDescription"
+            ></textarea>
+          </div>
+        </div>
+        <div class="ml-auto">
+          <p-toast></p-toast>
+          <p-confirmPopup></p-confirmPopup>
+          <p-button
+            pRipple
+            icon="pi pi-save"
+            [rounded]="true"
+            class="p-button-text mr-3"
+            severity="info"
+            (onClick)="confirmSaveService($event, service)"
+          ></p-button>
+          <p-button pRipple icon="pi pi-times" [rounded]="true" class="p-button-text" severity="warning" (onClick)="cancelEdit(service)"></p-button>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

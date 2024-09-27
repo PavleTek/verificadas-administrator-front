@@ -176,6 +176,8 @@ export class ServicesComponent {
         id: service.id,
         name: service.name,
         description: service.description,
+        metaTitle: service.metaTitle,
+        metaDescription: service.metaDescription,
       };
     });
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataForWorksheet);
@@ -231,6 +233,8 @@ export class ServicesComponent {
             id: service.id,
             name: service.name,
             description: service.description,
+            metaTitle: service.metaTitle,
+            metaDescription: service.metaDescription,
             edit: false,
           };
         });
