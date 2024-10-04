@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
@@ -16,7 +17,7 @@ import { MainService } from '../main.service';
 @Component({
   selector: 'app-nationalities',
   standalone: true,
-  imports: [CommonModule, FormsModule, DialogModule, InputTextModule, ToastModule, ButtonModule, ConfirmPopupModule, FileUploadModule],
+  imports: [CommonModule, FormsModule, DialogModule, InputTextModule, InputTextareaModule, ToastModule, ButtonModule, ConfirmPopupModule, FileUploadModule],
   templateUrl: './nationalities.component.html',
   providers: [ConfirmationService, MessageService],
   styleUrl: './nationalities.component.scss',

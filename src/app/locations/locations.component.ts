@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -16,7 +17,7 @@ import { MainService } from '../main.service';
 @Component({
   selector: 'app-locations',
   standalone: true,
-  imports: [CommonModule, FormsModule, DialogModule, InputTextModule, ToastModule, ButtonModule, ConfirmPopupModule, FileUploadModule],
+  imports: [CommonModule, FormsModule, DialogModule, InputTextareaModule, InputTextModule, ToastModule, ButtonModule, ConfirmPopupModule, FileUploadModule],
   templateUrl: './locations.component.html',
   providers: [ConfirmationService, MessageService],
   styleUrl: './locations.component.scss',

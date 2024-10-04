@@ -61,6 +61,20 @@
           <div>
             <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="city.name" />
           </div>
+          <h3>Meta Info</h3>
+          <div>
+            <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="city.metaTitle" />
+          </div>
+          <div>
+            <textarea
+              rows="3"
+              cols="45"
+              pInputTextarea
+              [autoResize]="true"
+              class="mt-1 mb-0 text-600 font-medium text-sm max-width"
+              [(ngModel)]="city.metaDescription"
+            ></textarea>
+          </div>
         </div>
         <div class="ml-auto">
           <p-toast></p-toast>
@@ -157,6 +171,20 @@
         <div>
           <div>
             <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="location.name" />
+          </div>
+          <h3>Meta Info</h3>
+          <div>
+            <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="location.metaTitle" />
+          </div>
+          <div>
+            <textarea
+              rows="3"
+              cols="45"
+              pInputTextarea
+              [autoResize]="true"
+              class="mt-1 mb-0 text-600 font-medium text-sm max-width"
+              [(ngModel)]="location.metaDescription"
+            ></textarea>
           </div>
         </div>
         <div class="ml-auto">
