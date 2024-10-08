@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, SelectControlValueAccessor } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -10,7 +10,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { City, SpecificLocation } from '../types';
+import { City, SpecificLocation, SeoCategory } from '../types';
 import { exportToExcel, uploadExcelFileAndGetJson } from '../helper-functions';
 import { MainService } from '../main.service';
 
@@ -33,11 +33,39 @@ export class LocationsComponent {
   originalSpecificLocations: SpecificLocation[] = [];
   specificLocationSearchName: string = '';
 
+  categories: SeoCategory[] = [];
+
   visibleUploadDialog: boolean = false;
   uploadedFiles: any[] = [];
   uploadType: string = '';
 
   constructor(private mainService: MainService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
+
+  confirmSaveSeoCategory(event: Event, category: SeoCategory) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Do you want to save this Seo Category?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: async () => {
+        if (category.new) {
+          const createResponse = await this.saveNewCategory(category);
+          if (createResponse.status === 200) {
+            this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: `Seo Category: ${category.name} created`, life: 3000 });
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Error creating Seo Category', life: 3000 });
+          }
+        } else {
+          const saveEditRespopnse = await this.saveEditSeoCategory(category);
+          if (saveEditRespopnse.status === 200) {
+            this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: `Seo Category: ${category.name} saved`, life: 3000 });
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Error editing Seo Category', life: 3000 });
+          }
+        }
+      },
+      reject: () => {},
+    });
+  }
 
   confirmSaveCity(event: Event, city: City) {
     this.confirmationService.confirm({
@@ -179,6 +207,28 @@ export class LocationsComponent {
     });
   }
 
+  async confirmDeleteSeoCategory(event: Event, category: SeoCategory) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Do you want to delete this Seo Category?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger p-button-sm',
+      accept: async () => {
+        try {
+          const deleteResponse = await this.deleteSeoCategory(category);
+          if (deleteResponse.status === 200) {
+            this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: 'Seo Category deleted', life: 3000 });
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Failed to delete Seo Category', life: 3000 });
+          }
+        } catch (err) {
+          this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Failed to delete Seo Category', life: 3000 });
+        }
+      },
+      reject: () => {},
+    });
+  }
+
   async getAllCities() {
     const citiesResponse = await this.mainService.getAllCities();
     const cities = citiesResponse;
@@ -191,6 +241,16 @@ export class LocationsComponent {
     this.fitlerCities();
   }
 
+  async getAllCategories() {
+    this.categories = [];
+    const categoriesResponse = await this.mainService.getAllCategories();
+    const categories = categoriesResponse.data;
+    const categoriesWithEdit = categories.map((category: any) => {
+      return { ...category, edit: false };
+    });
+    this.categories = categoriesWithEdit;
+  }
+
   async getAllSpecificLocations() {
     const response = await this.mainService.getAllSpecificLocations();
     const locations = response.data;
@@ -198,6 +258,7 @@ export class LocationsComponent {
       return { ...location, edit: false };
     });
     this.specifiLocations = specificLocationsWithEdit;
+    this.originalSpecificLocations = locations;
     this.filteredSpecificLocations = specificLocationsWithEdit;
     this.filterSpecificLocations();
   }
@@ -218,6 +279,8 @@ export class LocationsComponent {
       if (originalCity) {
         // Reset the edited cities to its original state
         city.name = originalCity.name;
+        city.metaTitle = originalCity.metaTitle;
+        city.metaDescription = originalCity.metaDescription;
         city.edit = false;
       }
     }
@@ -231,10 +294,14 @@ export class LocationsComponent {
       }
       this.filterSpecificLocations();
     } else {
+      console.log('helol is this working actually?');
       const originalSpecificLocation = this.originalSpecificLocations.find((original) => original.id === location.id);
       if (originalSpecificLocation) {
+        console.log(originalSpecificLocation);
         // Reset the edited cities to its original state
         location.name = originalSpecificLocation.name;
+        location.metaTitle = originalSpecificLocation.metaTitle;
+        location.metaDescription = originalSpecificLocation.metaDescription;
         location.edit = false;
       }
     }
@@ -280,10 +347,29 @@ export class LocationsComponent {
     this.filteredSpecificLocations = this.specifiLocations;
   }
 
+  createSeoCategory() {
+    const newSeoCategory: SeoCategory = {
+      name: '',
+      metaTitle: '',
+      metaDescription: '',
+      edit: true,
+      new: true,
+    };
+    this.categories.unshift(newSeoCategory);
+  }
+
   async deleteCity(city: City) {
     if (city.id) {
       const response = await this.mainService.deleteCity(city);
       await this.getAllCities();
+      return response;
+    }
+  }
+
+  async deleteSeoCategory(category: SeoCategory) {
+    if (category.id) {
+      const response = await this.mainService.deleteCategory(category);
+      await this.getAllCategories();
       return response;
     }
   }
@@ -342,6 +428,12 @@ export class LocationsComponent {
     return response;
   }
 
+  async saveEditSeoCategory(seoCategory: SeoCategory) {
+    const response = await this.mainService.udpateSeoCategory(seoCategory);
+    await this.getAllCategories();
+    return response;
+  }
+
   async saveNewCity(city: City): Promise<any> {
     const capitalizedCityName = city.name
       .split(' ')
@@ -356,6 +448,23 @@ export class LocationsComponent {
 
     const response = await this.mainService.createCity(newCity);
     await this.getAllCities();
+    return response;
+  }
+
+  async saveNewCategory(seoCategory: SeoCategory): Promise<any> {
+    const capitalizedCategoryName = seoCategory.name
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+
+    // Create a new City object with the capitalized name
+    const newCategory: SeoCategory = {
+      ...seoCategory,
+      name: capitalizedCategoryName,
+    };
+
+    const response = await this.mainService.createSeoCategory(newCategory);
+    await this.getAllCategories();
     return response;
   }
 
@@ -379,5 +488,6 @@ export class LocationsComponent {
   async ngOnInit(): Promise<void> {
     await this.getAllCities();
     await this.getAllSpecificLocations();
+    await this.getAllCategories();
   }
 }

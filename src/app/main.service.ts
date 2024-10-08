@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { ClientReview, Service, SubscriptionPayment, City, Ethnicity, Nationality, SpecificLocation, GirlUser, PricingPlan } from './types';
+import { ClientReview, Service, SubscriptionPayment, City, Ethnicity, Nationality, SpecificLocation, GirlUser, PricingPlan, SeoCategory } from './types';
 import { InternalService } from './internal.service';
 
 interface Response {
@@ -593,6 +593,7 @@ export class MainService {
     }
   }
 
+  // Pricing Plan Logic
   async getAllPricingPlans(): Promise<any> {
     try {
       const response = await this.http.get(`${this.baseUrl}/girl-api/pricingPlan`).toPromise();
@@ -628,7 +629,48 @@ export class MainService {
       const response = await this.http.delete(`${this.baseUrl}/admin-api/pricingPlan/${pricignPlan.id}`).toPromise();
       return response;
     } catch (error) {
-      console.error('Error deleting city:', error);
+      console.error('Error deleting Pricing Plan:', error);
+      throw error;
+    }
+  }
+
+  // Seo Category Logic
+  async getAllCategories(): Promise<any> {
+    try {
+      const response = await this.http.get(`${this.baseUrl}/girl-api/category`).toPromise();
+      return response;
+    } catch (error) {
+      console.error(`Error while fetching seo categories data`, error);
+      return error;
+    }
+  }
+
+  async createSeoCategory(SeoCategory: SeoCategory): Promise<any> {
+    try {
+      const response = await this.http.post(`${this.baseUrl}/admin-api/category`, SeoCategory).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error creating new Seo Category', error);
+      throw error;
+    }
+  }
+
+  async udpateSeoCategory(SeoCategory: SeoCategory): Promise<any> {
+    try {
+      const response = await this.http.put(`${this.baseUrl}/admin-api/category`, SeoCategory).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error Updating Seo category', error);
+      throw error;
+    }
+  }
+
+  async deleteCategory(SeoCategory: SeoCategory): Promise<any> {
+    try {
+      const response = await this.http.delete(`${this.baseUrl}/admin-api/category/${SeoCategory.id}`).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error deleting Category', error);
       throw error;
     }
   }

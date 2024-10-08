@@ -29,6 +29,15 @@ export type PricingPlan = {
   discountMessage: string;
 };
 
+export type SeoCategory = {
+  id?: number;
+  name: string;
+  metaTitle: string;
+  metaDescription: string;
+  edit?: boolean;
+  new?: boolean;
+};
+
 export type Banner = {
   id: number;
   message: number;
