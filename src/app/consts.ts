@@ -109,3 +109,10 @@ export const PaymentTierToNumberMap: { [key in PaymentTier]: number } = {
   [PaymentTier.REGULAR]: 60,
   [PaymentTier.ECONOMIC]: 30,
 };
+
+export const paymentTierToMaxImagesMap: { [key in PaymentTier]: number } = {
+  [PaymentTier.SPECIAL]: 16,
+  [PaymentTier.PREMIUM]: 16,
+  [PaymentTier.REGULAR]: 12,
+  [PaymentTier.ECONOMIC]: 8,
+};

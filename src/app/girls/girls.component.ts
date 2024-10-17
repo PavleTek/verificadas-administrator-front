@@ -205,6 +205,10 @@ export class GirlsComponent {
     this.router.navigate([`/admin/girls/verification/${user.id}`]);
   }
 
+  selectGirlForEdit(girlId: number | string) {
+    this.router.navigate([`/admin/girls/edit/${girlId}`]);
+  }
+
   prepareWhatsAppMessage(originalMessage: string): string {
     return encodeURIComponent(originalMessage);
   }
@@ -306,6 +310,15 @@ export class GirlsComponent {
         command: () => {
           if (this.activeGirlUserForSpeedDial) {
             this.confirmChangePassword(this.activeGirlUserForSpeedDial);
+          }
+        },
+      },
+      {
+        icon: 'pi pi-pencil',
+        command: () => {
+          console.log(this.activeGirlUserForSpeedDial, 'active girl that i should be editing');
+          if (this.activeGirlUserForSpeedDial) {
+            this.selectGirlForEdit(this.activeGirlUserForSpeedDial.id);
           }
         },
       },

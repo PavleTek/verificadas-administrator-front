@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { ClientReview, Service, SubscriptionPayment, City, Ethnicity, Nationality, SpecificLocation, GirlUser, PricingPlan, SeoCategory } from './types';
+import { ClientReview, Service, SubscriptionPayment, City, Ethnicity, Nationality, SpecificLocation, GirlUser, PricingPlan, SeoCategory, Girl } from './types';
 import { InternalService } from './internal.service';
 
 interface Response {
@@ -128,6 +128,56 @@ export class MainService {
     } catch (error) {
       console.error('Error updating Girl verification information', error);
       throw error;
+    }
+  }
+
+  async updateGirlProfile(girl: any): Promise<any> {
+    try {
+      const response = await this.http.put(`${this.baseUrl}/admin-api/girl`, girl).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error updating Girl Profile', error);
+      throw error;
+    }
+  }
+
+  async setMainImage(mainIndex: number, girlid: number): Promise<any> {
+    try {
+      const payload = { mainImageIndex: mainIndex, girlId: girlid };
+      const response = await this.http.put(`${this.baseMultimediaUrl}/multimedia-api/setMainImage`, payload).toPromise();
+      return response;
+    } catch (error) {
+      console.error(`Error while updating main image`, error);
+      return error;
+    }
+  }
+
+  async uploadImagesRequest(images: any[], girlId: number): Promise<any> {
+    try {
+      const formData = new FormData();
+      images.forEach((image) => {
+        formData.append('images', image, image.name); // Make sure to include the file name
+      });
+      const response = await this.http.post(`${this.baseMultimediaUrl}/multimedia-api/request/${girlId}`, formData).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error while uploading images', error);
+      return error;
+    }
+  }
+
+  // has to be an array because of some functions from libraries on the back end side, won't even try to solve this
+  async uploadProfilePictureRequest(images: any[], girlId: number): Promise<any> {
+    try {
+      const formData = new FormData();
+      images.forEach((image) => {
+        formData.append('images', image, image.name); // Make sure to include the file name
+      });
+      const response = await this.http.post(`${this.baseMultimediaUrl}/multimedia-api/profilePictureRequest/${girlId}`, formData).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error while uploading profilePicture', error);
+      return error;
     }
   }
 

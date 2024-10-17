@@ -16,6 +16,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { BlogsComponent } from './blogs/blogs.component';
 import { BlogViewComponent } from './blog-view/blog-view.component';
+import { EditGirlComponent } from './edit-girl/edit-girl.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -49,6 +50,7 @@ export const routes: Routes = [
           { path: 'multimedia/:id', component: MultimediaComponent },
           { path: 'verification/:id', component: VerificationComponent },
           { path: 'subscription/:id', component: SubscriptionComponent },
+          { path: 'edit/:id', component: EditGirlComponent },
         ],
       },
       { path: 'notifications', component: NotificationsComponent },

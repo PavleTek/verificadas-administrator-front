@@ -88,11 +88,14 @@ export class CreateGirlComponent {
           detail: `Girl with email ${this.email} succesfully created, redirecting to girls in 3 seconds`,
           life: 3000,
         });
+        setTimeout(() => {
+          this.router.navigate([`/admin/girls/all`]);
+        }, 3000);
       } else {
         this.messageService.add({ severity: 'error', summary: 'Rejected', detail: `Error Creating Girl: error: ${response.data} `, life: 3000 });
       }
       setTimeout(() => {
-        this.router.navigate([`/dashboard/girls/all`]);
+        this.router.navigate([`/admin/girls/all`]);
       }, 3000);
     }
   }
