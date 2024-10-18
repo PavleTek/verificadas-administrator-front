@@ -172,6 +172,9 @@
           <div>
             <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="location.name" />
           </div>
+          <div>
+            <p-dropdown [options]="originalCities" [(ngModel)]="location.city" placeholder="Seleccione ciudad" [editable]="true" optionLabel="name"></p-dropdown>
+          </div>
           <h3>Meta Info</h3>
           <div>
             <input type="text" class="text-900 font-medium mb-2 p-inputtext-sm" pInputText [(ngModel)]="location.metaTitle" />

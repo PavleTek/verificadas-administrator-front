@@ -275,6 +275,10 @@ export type SpecificLocation = {
   metaDescription?: string;
   edit?: boolean;
   new?: boolean;
+  city?: {
+    id: number;
+    name: string;
+  }; 
 };
 
 export type Ethnicity = {

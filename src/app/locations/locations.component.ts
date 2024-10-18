@@ -6,6 +6,7 @@ import { ToastModule } from 'primeng/toast';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
@@ -17,7 +18,18 @@ import { MainService } from '../main.service';
 @Component({
   selector: 'app-locations',
   standalone: true,
-  imports: [CommonModule, FormsModule, DialogModule, InputTextareaModule, InputTextModule, ToastModule, ButtonModule, ConfirmPopupModule, FileUploadModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    DropdownModule,
+    DialogModule,
+    InputTextareaModule,
+    InputTextModule,
+    ToastModule,
+    ButtonModule,
+    ConfirmPopupModule,
+    FileUploadModule,
+  ],
   templateUrl: './locations.component.html',
   providers: [ConfirmationService, MessageService],
   styleUrl: './locations.component.scss',
@@ -185,7 +197,7 @@ export class LocationsComponent {
     });
   }
 
-  async confirmDeleteSpecificLocation(event: Event, specificLocation: City) {
+  async confirmDeleteSpecificLocation(event: Event, specificLocation: SpecificLocation) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Do you want to delete this Specific Location?',
