@@ -50,7 +50,6 @@ export class BlogsComponent {
   async getAllBlogs() {
     const response = await this.mainService.getAllBlogs();
     const blogs = response.data;
-    console.log(blogs);
     this.blogs = blogs;
     this.filteredBlogs = blogs;
   }

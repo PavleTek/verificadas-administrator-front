@@ -505,6 +505,5 @@ export class EditGirlComponent {
     }
     this.activeIndex = index;
     this.displayCustom = true;
-    console.log(this.girl);
   }
 }

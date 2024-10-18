@@ -145,7 +145,6 @@ export class GirlsComponent {
     this.deleteUserConfirmationWord = '';
     this.deleteUserDialogVisible = true;
     const userIdToDelete = this.activeGirlUserForSpeedDial;
-    console.log(userIdToDelete);
   }
 
   async deleteUser() {
@@ -316,7 +315,6 @@ export class GirlsComponent {
       {
         icon: 'pi pi-pencil',
         command: () => {
-          console.log(this.activeGirlUserForSpeedDial, 'active girl that i should be editing');
           if (this.activeGirlUserForSpeedDial) {
             this.selectGirlForEdit(this.activeGirlUserForSpeedDial.id);
           }

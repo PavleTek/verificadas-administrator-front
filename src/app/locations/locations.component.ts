@@ -294,10 +294,8 @@ export class LocationsComponent {
       }
       this.filterSpecificLocations();
     } else {
-      console.log('helol is this working actually?');
       const originalSpecificLocation = this.originalSpecificLocations.find((original) => original.id === location.id);
       if (originalSpecificLocation) {
-        console.log(originalSpecificLocation);
         // Reset the edited cities to its original state
         location.name = originalSpecificLocation.name;
         location.metaTitle = originalSpecificLocation.metaTitle;
