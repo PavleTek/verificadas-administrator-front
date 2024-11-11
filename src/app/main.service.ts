@@ -767,6 +767,16 @@ export class MainService {
     }
   }
 
+  async generateRoutesInBackend(): Promise<any> {
+    try {
+      const response = await this.http.put(`${this.baseUrl}/admin-api/generateRoutes`, {}).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error generating rountes in the back end', error);
+      throw error;
+    }
+  }
+
   async getAllNotifications(): Promise<any> {
     try {
       const response = await this.http.get(`${this.baseUrl}/admin-api/notification`).toPromise();

@@ -93,6 +93,24 @@ export class HomeComponent {
     }
   }
 
+  async generateRoutesInBackend() {
+    try {
+      const response = await this.mainService.generateRoutesInBackend();
+      if (response.status === 200) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: `Routes Updated Successfully`,
+          life: 3000,
+        });
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Error generating routes, Error: ${response.data}`, life: 3000 });
+      }
+    } catch (error) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: `Error generating routes, Error: ${error}`, life: 3000 });
+    }
+  }
+
   async ngOnInit(): Promise<void> {
     let allGirlUsers: GirlUser[] = await this.mainService.getAllGirlUsers();
     allGirlUsers = allGirlUsers.map((girlUser: GirlUser) => {

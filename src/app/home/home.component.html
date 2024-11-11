@@ -52,7 +52,14 @@
               <div class="text-center border-1 surface-border border-round p-4 flex flex-column">
                 <i class="pi pi-camera text-5xl text-blue-500 pr-2"></i>
                 <div class="text-900 text-2xl font-700 my-3 font-bold">
-                  <p-button label="Clean" icon="pi pi-delete-left" iconPos="right" severity="info" (onClick)="cleanMultimediaData()"></p-button>
+                  <p-button
+                    label="Clean"
+                    icon="pi pi-delete-left"
+                    class="font-bold"
+                    iconPos="right"
+                    severity="info"
+                    (onClick)="cleanMultimediaData()"
+                  ></p-button>
                 </div>
                 <span class="font-medium text-600">Clean Image Data</span>
               </div>
@@ -61,16 +68,25 @@
               <div class="text-center border-1 surface-border border-round p-4">
                 <i class="pi pi-video text-5xl text-blue-500 pr-2"></i>
                 <div class="text-900 text-2xl font-700 my-3 font-bold">
-                  <p-button label="Clean" icon="pi pi-delete-left" iconPos="right" severity="info" (onClick)="cleanMultimediaData()"></p-button>
+                  <p-button
+                    label="Clean"
+                    icon="pi pi-delete-left"
+                    class="font-bold"
+                    iconPos="right"
+                    severity="info"
+                    (onClick)="cleanMultimediaData()"
+                  ></p-button>
                 </div>
                 <span class="font-medium text-600">Clean Video Data</span>
               </div>
             </div>
             <div class="col-12 md:col-6 text-center">
               <div class="text-center border-1 surface-border border-round p-4">
-                <i class="pi pi-facebook text-5xl text-blue-500"></i>
-                <div class="text-900 text-2xl font-700 my-3 font-bold">5.60K</div>
-                <span class="font-medium text-600">Facebook</span>
+                <i class="pi pi-hammer text-5xl text-blue-500"></i>
+                <div class="text-900 text-2xl font-700 my-3 font-bold">
+                  <p-button label="Generate" severity="info" class="font-bold" (onClick)="generateRoutesInBackend()"></p-button>
+                </div>
+                <span class="font-medium text-600">Generate Routes & Sitemap</span>
               </div>
             </div>
             <div class="col-12 md:col-6 text-center">
