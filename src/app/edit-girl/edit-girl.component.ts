@@ -381,6 +381,7 @@ export class EditGirlComponent {
           this.sortScheduleRows(this.girl.schedule);
           await this.populateAllInitialData();
           this.setUndefinedValuesToNotSpecify();
+          this.setInitialCategoriesValues();
         } else {
         }
       }
