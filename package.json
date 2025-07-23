@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run build && npx serve -s dist/admin",
+    "start": "npm run build && npx serve -s dist/verificadas-administrator-front/browser",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
